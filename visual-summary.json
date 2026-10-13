@@ -1,0 +1,154 @@
+{
+  "all_20_images_inspected": true,
+  "before_x_y_equal": true,
+  "after_x_y_different": true,
+  "canvas_roi": [
+    218,
+    305,
+    698,
+    665
+  ],
+  "after_canvas_differing_pixels": 3793,
+  "images": {
+    "3825-pose-after-light-x-only.png": {
+      "sha256": "a86d78c267a7f377e574b853e6fab80f2c343b9a47b8a2b534f692ad04793f92",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-light-y-only.png": {
+      "sha256": "0c074ca67139c98f7dcad129b6d1dd8be1de539154e76b251ea2753e05fc6356",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-medium-both.png": {
+      "sha256": "6e32b2a3048a5079427390b0ed5a085f604c95641bc364e2a022b0f147af6208",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-medium-none.png": {
+      "sha256": "d546a6b24c21f4088c75dd0718c240908dce9aff0ff2a773c7cbd9a88ea485a1",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-medium-x-only.png": {
+      "sha256": "bd5006a2fe3cc3da33839cb1f19fa368f6a61f1c8010d10b993353942ded409a",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-medium-y-only.png": {
+      "sha256": "1a05d0250531d3002caced1a7523078326b5394caa2a0fcea9c2601cefb815dd",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-paint-x-only.png": {
+      "sha256": "4b81ef87730222dfbdeb9ffb90daa06cff24ed0cb77c5cc5ccf8f69c7cdda520",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-paint-y-only.png": {
+      "sha256": "e62143b3146ece18535a3b94fd4fc5051484a2ce9f3f5ba70e64ace8b5b67eee",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-after-scale2-x-only.png": {
+      "sha256": "958e2f6992cf9f37d07ffe65d22db3ae32e518319dc907e07f151af0d882622c",
+      "size": [
+        1800,
+        1440
+      ]
+    },
+    "3825-pose-after-scale2-y-only.png": {
+      "sha256": "716030d3da006a8f7a889619a61e2912684eeaf4ed98a5aaa65ccd46e4a45f56",
+      "size": [
+        1800,
+        1440
+      ]
+    },
+    "3825-pose-before-light-x-only.png": {
+      "sha256": "ab5b7b988a322c0e27c0ab359cee48fc9cd267f66805028c42835ccd156025e1",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-light-y-only.png": {
+      "sha256": "ab5b7b988a322c0e27c0ab359cee48fc9cd267f66805028c42835ccd156025e1",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-medium-both.png": {
+      "sha256": "0f5925d0260656c29d86ee3ab9bb00f093b1204e96b01beb500c9140bea7d766",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-medium-none.png": {
+      "sha256": "acedf07e6b942253ee1d35c9aeded7a2635b084760b1548ce7612469c3602b93",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-medium-x-only.png": {
+      "sha256": "0f5925d0260656c29d86ee3ab9bb00f093b1204e96b01beb500c9140bea7d766",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-medium-y-only.png": {
+      "sha256": "0f5925d0260656c29d86ee3ab9bb00f093b1204e96b01beb500c9140bea7d766",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-paint-x-only.png": {
+      "sha256": "4a051f768ed543134f381a0855ddc703391744b7db121188354eff8be1cd78cc",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-paint-y-only.png": {
+      "sha256": "4a051f768ed543134f381a0855ddc703391744b7db121188354eff8be1cd78cc",
+      "size": [
+        1200,
+        900
+      ]
+    },
+    "3825-pose-before-scale2-x-only.png": {
+      "sha256": "f09afde360e14d6df1a70fb2ae60bfec045ac1a27878dd0d819c704de774b360",
+      "size": [
+        1800,
+        1440
+      ]
+    },
+    "3825-pose-before-scale2-y-only.png": {
+      "sha256": "f09afde360e14d6df1a70fb2ae60bfec045ac1a27878dd0d819c704de774b360",
+      "size": [
+        1800,
+        1440
+      ]
+    }
+  }
+}
