@@ -1,0 +1,167 @@
+{
+  "all_18_images_inspected": true,
+  "fixture_scripts_equal": true,
+  "idle_scrollbar_thumb_visible": true,
+  "cases": [
+    "medium",
+    "light",
+    "compact",
+    "scale2",
+    "small600",
+    "short",
+    "empty",
+    "dual",
+    "dual-off"
+  ],
+  "images": [
+    {
+      "file": "3825-grid-before-medium.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "9f2b36d0b505164957f1f40649930d3d044191e81980d76b2f815e585f626936"
+    },
+    {
+      "file": "3825-grid-before-light.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "c3506be989288e1eaf3593b9dfa233416d73288b3eb415954572b26a4bef146a"
+    },
+    {
+      "file": "3825-grid-before-compact.png",
+      "size": [
+        900,
+        720
+      ],
+      "sha256": "add8d00313094b061f6e7fddf504be6f3ada8e1abbd0a787ec714e1d8eb8532a"
+    },
+    {
+      "file": "3825-grid-before-scale2.png",
+      "size": [
+        1800,
+        1440
+      ],
+      "sha256": "e106c76b4fc701314a5ee31531950c3a78f8f496a4a6247542c6be2ac6a948f5"
+    },
+    {
+      "file": "3825-grid-before-small600.png",
+      "size": [
+        900,
+        600
+      ],
+      "sha256": "a16c21700be72d6db150853a7736f8ac6750b0737d1e9b7ed86e12afb79d40ec"
+    },
+    {
+      "file": "3825-grid-before-short.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "a35459ebac015e5be9e4c5016d969fb90d0d9ede3f9c65cb7e48ed5de84464e4"
+    },
+    {
+      "file": "3825-grid-before-empty.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "53df2cb5983e0b12b1f1c50a85e484f7d1cd3fa9549688f19632ff156863f66e"
+    },
+    {
+      "file": "3825-grid-before-dual.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "94387eb343fb315bc7893928a91becafd0f80ca8258b7f73479218ee2c0ec460"
+    },
+    {
+      "file": "3825-grid-before-dual-off.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "dcf3e64df467e74f23e7650aedc638b68e5874ba0182c86f2f718ac237a523cb"
+    },
+    {
+      "file": "3825-grid-after-medium.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "d4da76f3229b1e9bac70b47a7f517c437c104367b56e419f005266e24898542f"
+    },
+    {
+      "file": "3825-grid-after-light.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "c24288dbc988a6a90681b0afda53a7d8f323edf78b177b02cbbf8ea554c008b5"
+    },
+    {
+      "file": "3825-grid-after-compact.png",
+      "size": [
+        900,
+        720
+      ],
+      "sha256": "9df1b9a24d2374d72d3c529fb21c5991c1c581b9fe2695c583ad1e0d1082b8b1"
+    },
+    {
+      "file": "3825-grid-after-scale2.png",
+      "size": [
+        1800,
+        1440
+      ],
+      "sha256": "16a1eb9e0152aeb0e1f55108aa27cd1b372a75603b4d090e6acf34946841cf21"
+    },
+    {
+      "file": "3825-grid-after-small600.png",
+      "size": [
+        900,
+        600
+      ],
+      "sha256": "c7b7c1602e7ebd3e61e56ade935d673c1d18a38743394213db49fde047aaf318"
+    },
+    {
+      "file": "3825-grid-after-short.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "a3ce5cdfcc5808a3970612b036e33c7590a886babcbd1e74ceed7b7f2efaecd2"
+    },
+    {
+      "file": "3825-grid-after-empty.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "6a1511cb712d15709cbd64b5abb1ca5b7c7aa1570ddde90ccc032fc9d8e7d889"
+    },
+    {
+      "file": "3825-grid-after-dual.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "d56b29ed81fa6ea8dca5d62a5b471c065af64854b6caf871540d2309f3fb011f"
+    },
+    {
+      "file": "3825-grid-after-dual-off.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "7f0959e49258c2e58e700537acf44fc1996cb9d369d715810b6bd9eca67ac781"
+    }
+  ],
+  "inspection": "Native Metal captures: eight columns, primary named selection, grid/outer scrollbars, empty/one-tip, Medium/Light and 2x, 900x600 footer actions, Dual enabled/disabled. Lower controls reached by automated outer-scroll test. Dual selection behavior unchanged.",
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_sections.rs": "620937ea739f8c8a115e885f3257283fc34798d56a6e7273fb3a60e661c6a52f",
+    "crates/ui-egui/src/brush_panel.rs": "9ea7b3fbeca778155adbfd61d9a1ae2dc4d3c242941bc283ceda347db95c229f"
+  }
+}

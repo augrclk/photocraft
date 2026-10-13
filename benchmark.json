@@ -1,0 +1,70 @@
+{
+  "source_before": "99e1138877e6aa7e856c6883b415e708d042fc59",
+  "source_after": "77d70a4d58f2f30ae10512eba564dcaf0f88bb7b",
+  "release_overrides_both_phases": {
+    "lto": false,
+    "codegen_units": 16
+  },
+  "before": {
+    "document": [
+      6000,
+      4000
+    ],
+    "runs": [
+      {
+        "cached_previews": 22,
+        "frames": 60,
+        "median_ms": 0.115209,
+        "p95_ms": 0.129,
+        "presets": 64
+      },
+      {
+        "cached_previews": 22,
+        "frames": 60,
+        "median_ms": 0.461854,
+        "p95_ms": 0.488084,
+        "presets": 2048
+      },
+      {
+        "cached_previews": 22,
+        "frames": 60,
+        "median_ms": 1.6896870000000002,
+        "p95_ms": 1.9432919999999998,
+        "presets": 8192
+      }
+    ],
+    "scope": "Brush Settings egui CPU frame and cached thumbnails; excludes canvas composition and GPU presentation",
+    "warmup_frames": 12
+  },
+  "after": {
+    "document": [
+      6000,
+      4000
+    ],
+    "runs": [
+      {
+        "cached_previews": 65,
+        "frames": 60,
+        "median_ms": 0.15208300000000002,
+        "p95_ms": 0.164542,
+        "presets": 64
+      },
+      {
+        "cached_previews": 65,
+        "frames": 60,
+        "median_ms": 0.125521,
+        "p95_ms": 0.130958,
+        "presets": 2048
+      },
+      {
+        "cached_previews": 65,
+        "frames": 60,
+        "median_ms": 0.1163955,
+        "p95_ms": 0.11820800000000001,
+        "presets": 8192
+      }
+    ],
+    "scope": "Brush Settings egui CPU frame and cached thumbnails; excludes canvas composition and GPU presentation",
+    "warmup_frames": 12
+  }
+}
