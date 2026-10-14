@@ -1,0 +1,78 @@
+[
+  {
+    "after_pointer_locked": true,
+    "case": "medium",
+    "initially_locked": false,
+    "keyboard_checked": false,
+    "language": "en",
+    "named_lock_count": 0,
+    "nodes": [],
+    "png": "brush-lock-a11y-before-medium.png",
+    "pointer_journal_delta": 1,
+    "presets_and_other_brush_fields_unchanged": true,
+    "scale": 1.0,
+    "section_unchanged": true,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_pointer_locked": false,
+    "case": "light",
+    "initially_locked": true,
+    "keyboard_checked": false,
+    "language": "en",
+    "named_lock_count": 0,
+    "nodes": [],
+    "png": "brush-lock-a11y-before-light.png",
+    "pointer_journal_delta": 1,
+    "presets_and_other_brush_fields_unchanged": true,
+    "scale": 1.0,
+    "section_unchanged": true,
+    "theme": "proLight",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_pointer_locked": true,
+    "case": "scale2",
+    "initially_locked": false,
+    "keyboard_checked": false,
+    "language": "en",
+    "named_lock_count": 0,
+    "nodes": [],
+    "png": "brush-lock-a11y-before-scale2.png",
+    "pointer_journal_delta": 1,
+    "presets_and_other_brush_fields_unchanged": true,
+    "scale": 2.0,
+    "section_unchanged": true,
+    "theme": "proMedium",
+    "window": [
+      900.0,
+      720.0
+    ]
+  },
+  {
+    "after_pointer_locked": false,
+    "case": "turkish",
+    "initially_locked": true,
+    "keyboard_checked": false,
+    "language": "tr",
+    "named_lock_count": 0,
+    "nodes": [],
+    "png": "brush-lock-a11y-before-turkish.png",
+    "pointer_journal_delta": 1,
+    "presets_and_other_brush_fields_unchanged": true,
+    "scale": 1.0,
+    "section_unchanged": true,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  }
+]

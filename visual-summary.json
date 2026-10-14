@@ -1,0 +1,76 @@
+{
+  "all_8_images_inspected": true,
+  "all_4_pairs_pixel_identical": true,
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_panel.rs": "7bdf13283fac1b79a03080da2df2b5894f65de358967e555ab4f12635dbd4f5c",
+    "crates/ui-egui/src/brush_panel_tests.rs": "845df52d989e6fdfb98d26358b0f6391a9aff3dab25b92d9feb14b959b542d5a",
+    "docs/brush-parity.md": "fed7b862c383e3e42948fea5b11a4af56b3db661fa49c282083b9986c21c740c",
+    "docs/gaps.md": "7eb05e6af41b3c37fd940998b87568694d8466a842c1e9848119a6278d6df4a4"
+  },
+  "images": [
+    {
+      "file": "brush-lock-a11y-before-medium.png",
+      "sha256": "112c60ef4d9f23eeac209d62f05d92e78cbd222b0c61c42ffc768798cbafc0a4",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-after-medium.png",
+      "sha256": "112c60ef4d9f23eeac209d62f05d92e78cbd222b0c61c42ffc768798cbafc0a4",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-before-light.png",
+      "sha256": "74d5e2bc039e7c75a032bc525094a71da2ff3035b26b80416f0925bafea17fc1",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-after-light.png",
+      "sha256": "74d5e2bc039e7c75a032bc525094a71da2ff3035b26b80416f0925bafea17fc1",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-before-scale2.png",
+      "sha256": "c4bb73df7b20aa102821e66e76372e66d7b29fc87c5c96a508125f6103b9099a",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-after-scale2.png",
+      "sha256": "c4bb73df7b20aa102821e66e76372e66d7b29fc87c5c96a508125f6103b9099a",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-before-turkish.png",
+      "sha256": "56e09aa5f4fb084e3e0f196a8258706541f29bcb883f8a3e3f1cd6be84a060ed",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-a11y-after-turkish.png",
+      "sha256": "56e09aa5f4fb084e3e0f196a8258706541f29bcb883f8a3e3f1cd6be84a060ed",
+      "dimensions": [
+        1200,
+        900
+      ]
+    }
+  ]
+}
