@@ -1,0 +1,81 @@
+{
+  "all_8_images_inspected": true,
+  "fixture_matches": true,
+  "captured_control_pixels_identical": true,
+  "observations": "Uncaptured primary size stays exactly 17.25 after selection, field displays 17.3; captured control remains 73 and pixel-identical. Selection highlight, scrollbars and other fields remain present in Medium/Light and 1x/2x; source presets and non-tip settings preserved. Model contract is the oracle, no Photoshop pixel oracle.",
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_panel.rs": "9ea7b3fbeca778155adbfd61d9a1ae2dc4d3c242941bc283ceda347db95c229f",
+    "crates/ui-egui/src/brush_panel_tests.rs": "e3238198bd9a1707e46a42d1b18a707d2ad1cdbe944f629e87108402fbace940",
+    "crates/ui-egui/src/brush_sections.rs": "aac63627b2ee575781b8dedc252d9b4d9791855cf533a9cc8a26880ac95cfbdd",
+    "crates/ui-egui/src/brush_tip_grid_tests.rs": "f76c29f2ae825211b1d4e09591fb114e922c73a3c025953fbaddfff578bf5272",
+    "docs/brush-parity.md": "0d103a13d5ceb0b986e5e82ba53dd788ec5743a0c1bcfb8caaabd67be1248018",
+    "docs/gaps.md": "2ddb2acce066b92f9ca4ce2542181c52cf80c445fdf5a89517c9e0fe326db856",
+    "docs/ui-parity.md": "f1fdc99d94de3e596c1dfe700857d67d89382d0f6d39380cb9404109a6f3aafb"
+  },
+  "images": [
+    {
+      "file": "capture-size-grid-before-off-medium.png",
+      "sha256": "6ae82564ee320adf1b691677da6a826fd3ac90fd044efdd5f4c3bdb1a2d6270d",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "capture-size-grid-after-off-medium.png",
+      "sha256": "cedcd85a93126d27be3375dba945c65a570ac3224e5e3501af4e69d21e15ac05",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "capture-size-grid-before-off-light.png",
+      "sha256": "71ec20b40d8b77ed74741c92d1aefeeda1136f3fbfa9f2861ceed3ab24317b8f",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "capture-size-grid-after-off-light.png",
+      "sha256": "9cf3c32ab3134d4ded0d9a6828f85fceccae5a0b668136a20011e9a342c4c324",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "capture-size-grid-before-off-scale2.png",
+      "sha256": "1f51e18dcc53e39dc0764c216a371d6975b09c7e7967dbeee6eccf9a0911b0b5",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "capture-size-grid-after-off-scale2.png",
+      "sha256": "2a5f72beee4231bed96dbaa2a06b76789269be2b8c5867bc9466b303f78cc795",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "capture-size-grid-before-on-control.png",
+      "sha256": "6ae82564ee320adf1b691677da6a826fd3ac90fd044efdd5f4c3bdb1a2d6270d",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "capture-size-grid-after-on-control.png",
+      "sha256": "6ae82564ee320adf1b691677da6a826fd3ac90fd044efdd5f4c3bdb1a2d6270d",
+      "dimensions": [
+        1200,
+        900
+      ]
+    }
+  ]
+}

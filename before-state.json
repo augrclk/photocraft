@@ -1,0 +1,134 @@
+[
+  {
+    "after_size": 73.0,
+    "before_size": 17.25,
+    "capture_size": false,
+    "case": "off-medium",
+    "current_preset": "Capture size off",
+    "journal_delta": 2,
+    "model_expected_size": 17.25,
+    "other_fields_preserved": true,
+    "patch": {
+      "angle": 37.0,
+      "hardness": 0.3499999940395355,
+      "roundness": 0.44999998807907104,
+      "size": 73.0,
+      "spacing": 0.20999999344348907,
+      "tip": {
+        "sampled": {
+          "data": "AAD/////AAA=",
+          "height": 2,
+          "width": 2
+        }
+      }
+    },
+    "png": "capture-size-grid-before-off-medium.png",
+    "saved_size": 73.0,
+    "scale": 1.0,
+    "source_preset_unchanged": true,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_size": 73.0,
+    "before_size": 17.25,
+    "capture_size": false,
+    "case": "off-light",
+    "current_preset": "Capture size off",
+    "journal_delta": 2,
+    "model_expected_size": 17.25,
+    "other_fields_preserved": true,
+    "patch": {
+      "angle": 37.0,
+      "hardness": 0.3499999940395355,
+      "roundness": 0.44999998807907104,
+      "size": 73.0,
+      "spacing": 0.20999999344348907,
+      "tip": {
+        "sampled": {
+          "data": "AAD/////AAA=",
+          "height": 2,
+          "width": 2
+        }
+      }
+    },
+    "png": "capture-size-grid-before-off-light.png",
+    "saved_size": 73.0,
+    "scale": 1.0,
+    "source_preset_unchanged": true,
+    "theme": "proLight",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_size": 73.0,
+    "before_size": 17.25,
+    "capture_size": false,
+    "case": "off-scale2",
+    "current_preset": "Capture size off",
+    "journal_delta": 2,
+    "model_expected_size": 17.25,
+    "other_fields_preserved": true,
+    "patch": {
+      "angle": 37.0,
+      "hardness": 0.3499999940395355,
+      "roundness": 0.44999998807907104,
+      "size": 73.0,
+      "spacing": 0.20999999344348907,
+      "tip": {
+        "sampled": {
+          "data": "AAD/////AAA=",
+          "height": 2,
+          "width": 2
+        }
+      }
+    },
+    "png": "capture-size-grid-before-off-scale2.png",
+    "saved_size": 73.0,
+    "scale": 2.0,
+    "source_preset_unchanged": true,
+    "theme": "proMedium",
+    "window": [
+      900.0,
+      720.0
+    ]
+  },
+  {
+    "after_size": 73.0,
+    "before_size": 17.25,
+    "capture_size": true,
+    "case": "on-control",
+    "current_preset": "Capture size on",
+    "journal_delta": 2,
+    "model_expected_size": 73.0,
+    "other_fields_preserved": true,
+    "patch": {
+      "angle": 37.0,
+      "hardness": 0.3499999940395355,
+      "roundness": 0.44999998807907104,
+      "size": 73.0,
+      "spacing": 0.20999999344348907,
+      "tip": {
+        "sampled": {
+          "data": "AAD/////AAA=",
+          "height": 2,
+          "width": 2
+        }
+      }
+    },
+    "png": "capture-size-grid-before-on-control.png",
+    "saved_size": 73.0,
+    "scale": 1.0,
+    "source_preset_unchanged": true,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  }
+]
