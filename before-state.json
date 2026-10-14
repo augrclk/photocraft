@@ -1,0 +1,278 @@
+[
+  {
+    "after_brush_rev": 3,
+    "after_current": "Unavailable tip",
+    "after_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "after_size": 17.25,
+    "available_retry_verified": true,
+    "before_brush_rev": 2,
+    "before_current": "Working tip",
+    "before_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "before_size": 17.25,
+    "brush_preserved_on_failure": true,
+    "calls": [
+      [
+        "brush.presets.setCurrent",
+        {
+          "name": "Unavailable tip"
+        }
+      ]
+    ],
+    "case": "grid-medium",
+    "had_current": true,
+    "journal_delta": 1,
+    "png": "preset-failure-before-grid-medium.png",
+    "presets_unchanged": true,
+    "scale": 1.0,
+    "status": "invalid parameters for `tools.setBrush`: brush tip unavailable-tip is not available: no preset store is attached",
+    "tab": 0,
+    "theme": "proMedium",
+    "update_enabled": true,
+    "valid_control": false,
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_brush_rev": 2,
+    "after_current": "Unavailable tip",
+    "after_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "after_size": 17.25,
+    "available_retry_verified": true,
+    "before_brush_rev": 1,
+    "before_current": null,
+    "before_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "before_size": 17.25,
+    "brush_preserved_on_failure": true,
+    "calls": [
+      [
+        "brush.presets.setCurrent",
+        {
+          "name": "Unavailable tip"
+        }
+      ]
+    ],
+    "case": "grid-light",
+    "had_current": false,
+    "journal_delta": 1,
+    "png": "preset-failure-before-grid-light.png",
+    "presets_unchanged": true,
+    "scale": 1.0,
+    "status": "invalid parameters for `tools.setBrush`: brush tip unavailable-tip is not available: no preset store is attached",
+    "tab": 0,
+    "theme": "proLight",
+    "update_enabled": true,
+    "valid_control": false,
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_brush_rev": 2,
+    "after_current": "Unavailable tip",
+    "after_foreground": [
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "after_size": 17.25,
+    "available_retry_verified": true,
+    "before_brush_rev": 2,
+    "before_current": "Working tip",
+    "before_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "before_size": 17.25,
+    "brush_preserved_on_failure": true,
+    "calls": [],
+    "case": "picker-medium",
+    "had_current": true,
+    "journal_delta": 0,
+    "png": "preset-failure-before-picker-medium.png",
+    "presets_unchanged": true,
+    "scale": 1.0,
+    "status": "invalid parameters for `tools.setBrush`: brush tip unavailable-tip is not available: no preset store is attached",
+    "tab": 1,
+    "theme": "proMedium",
+    "update_enabled": null,
+    "valid_control": false,
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_brush_rev": 1,
+    "after_current": "Unavailable tip",
+    "after_foreground": [
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "after_size": 17.25,
+    "available_retry_verified": true,
+    "before_brush_rev": 1,
+    "before_current": null,
+    "before_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "before_size": 17.25,
+    "brush_preserved_on_failure": true,
+    "calls": [],
+    "case": "picker-light",
+    "had_current": false,
+    "journal_delta": 0,
+    "png": "preset-failure-before-picker-light.png",
+    "presets_unchanged": true,
+    "scale": 1.0,
+    "status": "invalid parameters for `tools.setBrush`: brush tip unavailable-tip is not available: no preset store is attached",
+    "tab": 1,
+    "theme": "proLight",
+    "update_enabled": null,
+    "valid_control": false,
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_brush_rev": 3,
+    "after_current": "Unavailable tip",
+    "after_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "after_size": 17.25,
+    "available_retry_verified": true,
+    "before_brush_rev": 2,
+    "before_current": "Working tip",
+    "before_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "before_size": 17.25,
+    "brush_preserved_on_failure": true,
+    "calls": [
+      [
+        "brush.presets.setCurrent",
+        {
+          "name": "Unavailable tip"
+        }
+      ]
+    ],
+    "case": "grid-scale2",
+    "had_current": true,
+    "journal_delta": 1,
+    "png": "preset-failure-before-grid-scale2.png",
+    "presets_unchanged": true,
+    "scale": 2.0,
+    "status": "invalid parameters for `tools.setBrush`: brush tip unavailable-tip is not available: no preset store is attached",
+    "tab": 0,
+    "theme": "proMedium",
+    "update_enabled": true,
+    "valid_control": false,
+    "window": [
+      900.0,
+      720.0
+    ]
+  },
+  {
+    "after_brush_rev": 4,
+    "after_current": "Available tip",
+    "after_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "after_size": 73.0,
+    "available_retry_verified": false,
+    "before_brush_rev": 2,
+    "before_current": "Working tip",
+    "before_foreground": [
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "before_size": 17.25,
+    "brush_preserved_on_failure": false,
+    "calls": [
+      [
+        "brush.presets.setCurrent",
+        {
+          "name": "Available tip"
+        }
+      ],
+      [
+        "tools.setBrush",
+        {
+          "brush": {
+            "angle": 37.0,
+            "hardness": 0.3499999940395355,
+            "roundness": 0.44999998807907104,
+            "size": 73.0,
+            "spacing": 0.20999999344348907,
+            "tip": {
+              "sampled": {
+                "data": "//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8=",
+                "height": 16,
+                "width": 16
+              }
+            }
+          },
+          "coalesce": "brush-ui:1"
+        }
+      ]
+    ],
+    "case": "valid-control",
+    "had_current": true,
+    "journal_delta": 2,
+    "png": "preset-failure-before-valid-control.png",
+    "presets_unchanged": true,
+    "scale": 1.0,
+    "status": "",
+    "tab": 0,
+    "theme": "proMedium",
+    "update_enabled": true,
+    "valid_control": true,
+    "window": [
+      1200.0,
+      900.0
+    ]
+  }
+]

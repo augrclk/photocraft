@@ -1,0 +1,268 @@
+{
+  "all_12_images_inspected": true,
+  "valid_control_pixel_identical": true,
+  "fixture_matches": true,
+  "source_file_sha256": {
+    "crates/engine/src/brush_cmds.rs": "7148843f21b83a9d0b1622d8549a501af780ebc5a3a32295446747e12ef533e0",
+    "crates/engine/src/brush_cmds/tests.rs": "2b938eb18ac54316258004c03288e154e31224fd52cd3e3b42db767e4e94cf2b",
+    "crates/ui-egui/src/brush_panel.rs": "5b8f3c139608b1f2f09cc720136ccde91631f94b137e17ee6039a0da1f806b67",
+    "crates/ui-egui/src/brush_panel_tests.rs": "557b278ed30be00b63a8e71419da84be1e5a60bd1839d0ccfead4ecd28689e09",
+    "crates/ui-egui/src/brush_sections.rs": "aac63627b2ee575781b8dedc252d9b4d9791855cf533a9cc8a26880ac95cfbdd",
+    "crates/ui-egui/src/brush_tip_grid_tests.rs": "f76c29f2ae825211b1d4e09591fb114e922c73a3c025953fbaddfff578bf5272",
+    "docs/brush-parity.md": "d7f91ec7dc86d96a692ef871b20c19037405aabee94dae6aa38302b648c58fc1",
+    "docs/gaps.md": "c59167beb0daf0f9331395a0328681788078dbef000d47e13ffc12481b477a1b",
+    "docs/ui-parity.md": "f1fdc99d94de3e596c1dfe700857d67d89382d0f6d39380cb9404109a6f3aafb"
+  },
+  "images": [
+    {
+      "file": "preset-failure-before-grid-medium.png",
+      "sha256": "c09acd0161be92a18d975bc411e1f1227d8a7880c7ec6cbaff2951bf7e5709da",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-after-grid-medium.png",
+      "sha256": "a7a8511ac934645fd0b11ee2ce4f67af095613ced32c0a0550a3dfce4b604b4f",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-before-grid-light.png",
+      "sha256": "a220d1f52da7cab89117c67e59e13d2520a4321e29e022bd9fc53242041d3e2f",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-after-grid-light.png",
+      "sha256": "a1611fc1c6e4172bb1bdb534ee6cd6e27e6eea7a87f46e52dc2bb2ae8bfad76a",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-before-picker-medium.png",
+      "sha256": "034c1aa86edfe95001e89281cfb326e6e7b6e716cc1d5cbd6646962519511e1f",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-after-picker-medium.png",
+      "sha256": "2b5417a61ebd0b0210c3d0c1887dbe36db0f331e0a606325388d3201c01aef92",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-before-picker-light.png",
+      "sha256": "b597b7a551df75d434f25a6f0a14c8e6e313b4bd944edc60e2eea17ff7a8ecf9",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-after-picker-light.png",
+      "sha256": "019424c520fd9be0d5d0bb37f8a544dcf00b2867166cc2afae9bff32515be977",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-before-grid-scale2.png",
+      "sha256": "a950b51e9e01df0e068d5d37182c3bbdf20846bf1af13598e4e813c7a998f527",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "preset-failure-after-grid-scale2.png",
+      "sha256": "6587a75f76a26c2589fce6496f35a7b61996fe0789167e742183ff72d9f0f248",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "preset-failure-before-valid-control.png",
+      "sha256": "8bd741157c60901cc417ccb5b561d5cf5f06f8e4764378883d440afd224766fc",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-failure-after-valid-control.png",
+      "sha256": "8bd741157c60901cc417ccb5b561d5cf5f06f8e4764378883d440afd224766fc",
+      "dimensions": [
+        1200,
+        900
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "case": "grid-medium",
+      "difference_bounds": [
+        492,
+        161,
+        556,
+        201
+      ],
+      "current_before": "Unavailable tip",
+      "current_after": "Working tip",
+      "foreground_before": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "foreground_after": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "journal_before": 1,
+      "journal_after": 0
+    },
+    {
+      "case": "grid-light",
+      "difference_bounds": [
+        524,
+        161,
+        829,
+        876
+      ],
+      "current_before": "Unavailable tip",
+      "current_after": null,
+      "foreground_before": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "foreground_after": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "journal_before": 1,
+      "journal_after": 0
+    },
+    {
+      "case": "picker-medium",
+      "difference_bounds": [
+        9,
+        104,
+        1186,
+        784
+      ],
+      "current_before": "Unavailable tip",
+      "current_after": "Working tip",
+      "foreground_before": [
+        1.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "foreground_after": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "journal_before": 0,
+      "journal_after": 0
+    },
+    {
+      "case": "picker-light",
+      "difference_bounds": [
+        9,
+        104,
+        1186,
+        784
+      ],
+      "current_before": "Unavailable tip",
+      "current_after": null,
+      "foreground_before": [
+        1.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "foreground_after": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "journal_before": 0,
+      "journal_after": 0
+    },
+    {
+      "case": "grid-scale2",
+      "difference_bounds": [
+        470,
+        122,
+        598,
+        202
+      ],
+      "current_before": "Unavailable tip",
+      "current_after": "Working tip",
+      "foreground_before": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "foreground_after": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "journal_before": 1,
+      "journal_after": 0
+    },
+    {
+      "case": "valid-control",
+      "difference_bounds": null,
+      "current_before": "Available tip",
+      "current_after": "Available tip",
+      "foreground_before": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "foreground_after": [
+        0.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "journal_before": 2,
+      "journal_after": 2
+    }
+  ],
+  "brush_sections_unchanged": true,
+  "test_only_adjustment_after_captures": {
+    "file": "crates/engine/src/brush_cmds/tests.rs",
+    "captured_test_source_sha256": "ccd144605460d6b21bedc0e4939d9a69141656a2bc16f7c066e3fbf4c46cf508",
+    "final_test_source_sha256": "2b938eb18ac54316258004c03288e154e31224fd52cd3e3b42db767e4e94cf2b",
+    "reason": "Replace test-only unreachable branches with Option and unwrap to satisfy strict Clippy; all production/UI/driver source unchanged."
+  }
+}
