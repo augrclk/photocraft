@@ -1,0 +1,82 @@
+[
+  {
+    "after_presets": 37,
+    "before_presets": 36,
+    "brush_unchanged": true,
+    "case": "medium",
+    "current_preset": "Brush 1",
+    "dialogs": [],
+    "journal_delta": 1,
+    "new_preset_names": [
+      "Brush 1"
+    ],
+    "png": "3477-preset-menu-before-medium.png",
+    "scale": 1.0,
+    "tab": 0,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_presets": 37,
+    "before_presets": 36,
+    "brush_unchanged": true,
+    "case": "brushes",
+    "current_preset": "Brush 1",
+    "dialogs": [],
+    "journal_delta": 1,
+    "new_preset_names": [
+      "Brush 1"
+    ],
+    "png": "3477-preset-menu-before-brushes.png",
+    "scale": 1.0,
+    "tab": 1,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_presets": 37,
+    "before_presets": 36,
+    "brush_unchanged": true,
+    "case": "light",
+    "current_preset": "Brush 1",
+    "dialogs": [],
+    "journal_delta": 1,
+    "new_preset_names": [
+      "Brush 1"
+    ],
+    "png": "3477-preset-menu-before-light.png",
+    "scale": 1.0,
+    "tab": 0,
+    "theme": "proLight",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "after_presets": 37,
+    "before_presets": 36,
+    "brush_unchanged": true,
+    "case": "scale2",
+    "current_preset": "Brush 1",
+    "dialogs": [],
+    "journal_delta": 1,
+    "new_preset_names": [
+      "Brush 1"
+    ],
+    "png": "3477-preset-menu-before-scale2.png",
+    "scale": 2.0,
+    "tab": 0,
+    "theme": "proMedium",
+    "window": [
+      900.0,
+      720.0
+    ]
+  }
+]

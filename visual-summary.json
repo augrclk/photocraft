@@ -1,0 +1,81 @@
+{
+  "all_8_images_inspected": true,
+  "fixture_matches": true,
+  "images": [
+    {
+      "file": "3477-preset-menu-before-medium.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "82eb0b944eeb56a2e4e16b7d92b92323f14ea2498099b45b309161b8a68c0f13"
+    },
+    {
+      "file": "3477-preset-menu-before-brushes.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "b518206f11c4dd33523c04da659478b5c04da82f7d493d336f8612cbcbbfdc83"
+    },
+    {
+      "file": "3477-preset-menu-before-light.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "df18d04f4524b37f0eda868a524e50fe81051bb1f27a61778822388b4a127bec"
+    },
+    {
+      "file": "3477-preset-menu-before-scale2.png",
+      "size": [
+        1800,
+        1440
+      ],
+      "sha256": "91a12026e270bc179bc5737fc32808beb8490df162d168b19d9112343a9498ea"
+    },
+    {
+      "file": "3477-preset-menu-after-medium.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "0f149972e9363fd36a3d2f1422592c5476582b12f2134b76c12bdceb6d7cb74b"
+    },
+    {
+      "file": "3477-preset-menu-after-brushes.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "697f12b7fd5dc1289dcfe0d996d69e7d808d3891aa24a7dd23f59fbff47cd65a"
+    },
+    {
+      "file": "3477-preset-menu-after-light.png",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "55b55a5392e84ce74a7f0ea170444c677d0a20bdd2cc5130db55f2d651300e6d"
+    },
+    {
+      "file": "3477-preset-menu-after-scale2.png",
+      "size": [
+        1800,
+        1440
+      ],
+      "sha256": "c6e3860f13945815803e541ed9912ffec95e1f3acac72b19d14a9e3f6cc061ae"
+    }
+  ],
+  "cases": [
+    "medium",
+    "brushes",
+    "light",
+    "scale2"
+  ],
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_panel.rs": "0dbeb46e8b5920a526ad09d23d09ddb689c90967d6a69699872f383aadfd9c02",
+    "crates/ui-egui/src/brush_preset_dialog.rs": "4fe755827e568d45a4355e5c28c0916fc8bcf262feb807991d7c4753e1480866"
+  },
+  "inspection": "Shared dialog visible on both tabs, Pro Medium/Light and 2x. Preset counts and journal deltas verified by the native driver; actual selected appearance and Tokens palette checked for each case."
+}
