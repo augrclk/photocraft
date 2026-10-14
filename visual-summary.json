@@ -1,0 +1,182 @@
+{
+  "all_10_images_inspected": true,
+  "valid_control_pixel_identical": true,
+  "fixture_matches": true,
+  "source_file_sha256": {
+    "crates/engine/src/brush_cmds.rs": "e2d17571887acdd7ffb7555f8429b5d1681d13383b8cf9e251b3727d147fa99d",
+    "crates/engine/src/brush_cmds/tests.rs": "e86f0e79045de77ccaabfb96a26430a869061b198bd9ce5ed414de8675778c78",
+    "crates/ui-egui/src/brush_panel.rs": "826043cb13774d450bb5f9e5782d259a1479ee9177597ae62f8a1eebcbd08f57",
+    "crates/ui-egui/src/brush_panel_tests.rs": "619f772fa3f0bc4733fce6bb0d41ab250bb1467c5555c2bda208167d5b20130d",
+    "crates/ui-egui/src/brush_preset_dialog.rs": "4fe755827e568d45a4355e5c28c0916fc8bcf262feb807991d7c4753e1480866",
+    "crates/ui-egui/src/brush_preset_dialog_tests.rs": "73859f248bf812879251a10d633735ef8bb49a90ae910bdfc5575558f5c37604",
+    "crates/ui-egui/src/dialogs.rs": "1c6ca684acb84e21acb5ea558f6cf3c195dc99be8bbd49ca8cffa035bd068f8f",
+    "docs/brush-parity.md": "ca3a204b046d0065ebed094ff5c0738d3c9823bcde983441792bc7d10cf5d921",
+    "docs/gaps.md": "c57e09dd62a6fdca06b59d8e17d2d355e6d3ba9dd49f4dcf31ddcc784321c2bf"
+  },
+  "driver_sha256": "83f6e28b1ff48d664d8c6ac44e9d277e8fec8b1ded825e069066b45d6f92f599",
+  "images": [
+    {
+      "file": "preset-bounds-before-size-medium.png",
+      "sha256": "2bf9335980e7a4181a55ff7e3bc67370d6201b90306517acd01cc1e15856ef9c",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-after-size-medium.png",
+      "sha256": "980d03ef6e216128db6d2cc16905e7532a667c47ca10b7b4d417cc29e5cd4bd2",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-before-scatter-light.png",
+      "sha256": "c900771328749be3c880d2848f50c518e5c0d94e06d82af9b5d499fe8ee4490d",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-after-scatter-light.png",
+      "sha256": "cdeb25ee11278da98f41d5ff976e3e6db9b87f162463037b1c1c7dd8860c565e",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-before-duplicate-medium.png",
+      "sha256": "44ddb6e50748e0862482bb6dd3ceae642114b6ea125f48e536776c1f400c9e4b",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-after-duplicate-medium.png",
+      "sha256": "7a2edfbf6b03e8b968d6ddc0624d2a6f802ef02b06e0256dd3ab57e40e335649",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-before-size-scale2.png",
+      "sha256": "c92c42b60f918860e03ee1ff7cb324b8b73ebb6333bc355d847a6e37863bee5d",
+      "dimensions": [
+        2400,
+        1800
+      ]
+    },
+    {
+      "file": "preset-bounds-after-size-scale2.png",
+      "sha256": "0a357f1ab7d916d877c74bd8641ea21f6d0493061e8748cefe8ec86835216a13",
+      "dimensions": [
+        2400,
+        1800
+      ]
+    },
+    {
+      "file": "preset-bounds-before-valid-control.png",
+      "sha256": "2bf9335980e7a4181a55ff7e3bc67370d6201b90306517acd01cc1e15856ef9c",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-bounds-after-valid-control.png",
+      "sha256": "2bf9335980e7a4181a55ff7e3bc67370d6201b90306517acd01cc1e15856ef9c",
+      "dimensions": [
+        1200,
+        900
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "case": "size-medium",
+      "difference_bounds": [
+        276,
+        370,
+        862,
+        897
+      ],
+      "before_count": 38,
+      "after_count": 37,
+      "journal_before": 1,
+      "journal_after": 0,
+      "before_current": "Agent preset",
+      "after_current": "Working preset",
+      "after_form_retained": true,
+      "after_retry_verified": true
+    },
+    {
+      "case": "scatter-light",
+      "difference_bounds": [
+        276,
+        370,
+        957,
+        897
+      ],
+      "before_count": 38,
+      "after_count": 37,
+      "journal_before": 1,
+      "journal_after": 0,
+      "before_current": "Agent preset",
+      "after_current": "Working preset",
+      "after_form_retained": true,
+      "after_retry_verified": true
+    },
+    {
+      "case": "duplicate-medium",
+      "difference_bounds": [
+        339,
+        370,
+        862,
+        592
+      ],
+      "before_count": 37,
+      "after_count": 37,
+      "journal_before": 0,
+      "journal_after": 0,
+      "before_current": "Working preset",
+      "after_current": "Working preset",
+      "after_form_retained": true,
+      "after_retry_verified": true
+    },
+    {
+      "case": "size-scale2",
+      "difference_bounds": [
+        551,
+        739,
+        1723,
+        1793
+      ],
+      "before_count": 38,
+      "after_count": 37,
+      "journal_before": 1,
+      "journal_after": 0,
+      "before_current": "Agent preset",
+      "after_current": "Working preset",
+      "after_form_retained": true,
+      "after_retry_verified": true
+    },
+    {
+      "case": "valid-control",
+      "difference_bounds": null,
+      "before_count": 38,
+      "after_count": 38,
+      "journal_before": 1,
+      "journal_after": 1,
+      "before_current": "Agent preset",
+      "after_current": "Agent preset",
+      "after_form_retained": false,
+      "after_retry_verified": false
+    }
+  ],
+  "scope": "Public ui.dialog.set supplies invalid size/scatter fields; ordinary sliders already constrain inputs. Same native driver and fixtures, no fabricated asset or Photoshop pixel oracle."
+}

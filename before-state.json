@@ -1,0 +1,189 @@
+[
+  {
+    "after_count": 38,
+    "after_current": "Agent preset",
+    "before_count": 37,
+    "before_current": "Working preset",
+    "brush_patch_supplied_via_ui_dialog_set": {
+      "size": 5001.0
+    },
+    "calls": [
+      [
+        "brush.presets.save",
+        {
+          "brush": {
+            "size": 5001.0
+          },
+          "captureSize": true,
+          "color": true,
+          "name": "Agent preset",
+          "toolSettings": true
+        }
+      ]
+    ],
+    "case": "size-medium",
+    "control_reply": null,
+    "defect": "size",
+    "dialog_open": false,
+    "fields_retained": false,
+    "journal_delta": 1,
+    "old_created_preset_is_unselectable": true,
+    "old_presets_preserved": true,
+    "png": "preset-bounds-before-size-medium.png",
+    "retry_verified": false,
+    "scale": 1.0,
+    "status": "",
+    "theme": "proMedium",
+    "working_brush_preserved": true
+  },
+  {
+    "after_count": 38,
+    "after_current": "Agent preset",
+    "before_count": 37,
+    "before_current": "Working preset",
+    "brush_patch_supplied_via_ui_dialog_set": {
+      "scattering": {
+        "enabled": true,
+        "scatter": {
+          "jitter": 11.0
+        }
+      },
+      "size": 17.25
+    },
+    "calls": [
+      [
+        "brush.presets.save",
+        {
+          "brush": {
+            "scattering": {
+              "enabled": true,
+              "scatter": {
+                "jitter": 11.0
+              }
+            },
+            "size": 17.25
+          },
+          "captureSize": true,
+          "color": true,
+          "name": "Agent preset",
+          "toolSettings": true
+        }
+      ]
+    ],
+    "case": "scatter-light",
+    "control_reply": null,
+    "defect": "scatter",
+    "dialog_open": false,
+    "fields_retained": false,
+    "journal_delta": 1,
+    "old_created_preset_is_unselectable": true,
+    "old_presets_preserved": true,
+    "png": "preset-bounds-before-scatter-light.png",
+    "retry_verified": false,
+    "scale": 1.0,
+    "status": "",
+    "theme": "proLight",
+    "working_brush_preserved": true
+  },
+  {
+    "after_count": 37,
+    "after_current": "Working preset",
+    "before_count": 37,
+    "before_current": "Working preset",
+    "brush_patch_supplied_via_ui_dialog_set": {
+      "size": 17.25
+    },
+    "calls": [],
+    "case": "duplicate-medium",
+    "control_reply": {
+      "error": "A brush preset with this name already exists",
+      "ok": false
+    },
+    "defect": "duplicate",
+    "dialog_open": false,
+    "fields_retained": false,
+    "journal_delta": 0,
+    "old_created_preset_is_unselectable": false,
+    "old_presets_preserved": true,
+    "png": "preset-bounds-before-duplicate-medium.png",
+    "retry_verified": false,
+    "scale": 1.0,
+    "status": "",
+    "theme": "proMedium",
+    "working_brush_preserved": true
+  },
+  {
+    "after_count": 38,
+    "after_current": "Agent preset",
+    "before_count": 37,
+    "before_current": "Working preset",
+    "brush_patch_supplied_via_ui_dialog_set": {
+      "size": 5001.0
+    },
+    "calls": [
+      [
+        "brush.presets.save",
+        {
+          "brush": {
+            "size": 5001.0
+          },
+          "captureSize": true,
+          "color": true,
+          "name": "Agent preset",
+          "toolSettings": true
+        }
+      ]
+    ],
+    "case": "size-scale2",
+    "control_reply": null,
+    "defect": "size",
+    "dialog_open": false,
+    "fields_retained": false,
+    "journal_delta": 1,
+    "old_created_preset_is_unselectable": true,
+    "old_presets_preserved": true,
+    "png": "preset-bounds-before-size-scale2.png",
+    "retry_verified": false,
+    "scale": 2.0,
+    "status": "",
+    "theme": "proMedium",
+    "working_brush_preserved": true
+  },
+  {
+    "after_count": 38,
+    "after_current": "Agent preset",
+    "before_count": 37,
+    "before_current": "Working preset",
+    "brush_patch_supplied_via_ui_dialog_set": {
+      "size": 17.25
+    },
+    "calls": [
+      [
+        "brush.presets.save",
+        {
+          "brush": {
+            "size": 17.25
+          },
+          "captureSize": true,
+          "color": true,
+          "name": "Agent preset",
+          "toolSettings": true
+        }
+      ]
+    ],
+    "case": "valid-control",
+    "control_reply": null,
+    "defect": "valid",
+    "dialog_open": false,
+    "fields_retained": false,
+    "journal_delta": 1,
+    "old_created_preset_is_unselectable": false,
+    "old_presets_preserved": true,
+    "png": "preset-bounds-before-valid-control.png",
+    "retry_verified": false,
+    "scale": 1.0,
+    "status": "",
+    "theme": "proMedium",
+    "working_brush_preserved": true
+  }
+]
