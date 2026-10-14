@@ -1,0 +1,82 @@
+[
+  {
+    "case": "computed",
+    "click_journal_delta": 0,
+    "click_size": 37.25,
+    "idle_brush_unchanged": true,
+    "png": "3825-size-restore-after-computed.png",
+    "rect": [
+      723.0,
+      303.0,
+      745.0,
+      325.0
+    ],
+    "restore_disabled": true,
+    "restore_visible": true,
+    "sampled": false,
+    "scale": 1.0,
+    "section": 0,
+    "size": 37.25,
+    "theme": "proMedium"
+  },
+  {
+    "case": "original",
+    "click_journal_delta": 0,
+    "click_size": 20.0,
+    "idle_brush_unchanged": true,
+    "png": "3825-size-restore-after-original.png",
+    "rect": [
+      723.0,
+      303.0,
+      745.0,
+      325.0
+    ],
+    "restore_disabled": true,
+    "restore_visible": true,
+    "sampled": true,
+    "scale": 1.0,
+    "section": 0,
+    "size": 20.0,
+    "theme": "proMedium"
+  },
+  {
+    "case": "dual-computed-light",
+    "click_journal_delta": 0,
+    "click_size": 37.25,
+    "idle_brush_unchanged": true,
+    "png": "3825-size-restore-after-dual-computed-light.png",
+    "rect": [
+      723.0,
+      337.0,
+      745.0,
+      359.0
+    ],
+    "restore_disabled": true,
+    "restore_visible": true,
+    "sampled": false,
+    "scale": 1.0,
+    "section": 4,
+    "size": 37.25,
+    "theme": "proLight"
+  },
+  {
+    "case": "dual-changed-scale2",
+    "click_journal_delta": 1,
+    "click_size": 20.0,
+    "idle_brush_unchanged": true,
+    "png": "3825-size-restore-after-dual-changed-scale2.png",
+    "rect": [
+      723.0,
+      337.0,
+      745.0,
+      359.0
+    ],
+    "restore_disabled": false,
+    "restore_visible": true,
+    "sampled": true,
+    "scale": 2.0,
+    "section": 4,
+    "size": 37.25,
+    "theme": "proMedium"
+  }
+]

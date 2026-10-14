@@ -1,0 +1,115 @@
+{
+  "all_8_images_inspected": true,
+  "fixture_matches": true,
+  "observations": "Computed primary/dual reset button is now visible and dimmed; original sampled size is dimmed; changed sampled Dual Brush stays active and visually identical. Whole-app native captures inspected; no Photoshop pixel oracle.",
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_sections.rs": "da36d11422ec925afc659c79b57ec32e3189e32f9ccc5c2584185ba491336ca6",
+    "crates/ui-egui/src/brush_panel_tests.rs": "da050494eff8ebec654d9379457a1c82aaa51845b893539d0fade53bd4261cbf",
+    "crates/ui-egui/src/brush_size_restore_tests.rs": "1b6d88f17e520eda1996ee4cb201c2bc5b4fcdf30ed705a708a9723e965073f0",
+    "docs/brush-parity.md": "cadb5764d3dc1942409026458b837e8ae49892f12020dd768f13f01399d993cb",
+    "docs/gaps.md": "ccb4e64b22032ca42c7c98738925b2fd19e306aee6d6acf8b9f1a292239a1df2"
+  },
+  "images": [
+    {
+      "file": "3825-size-restore-before-computed.png",
+      "sha256": "59f1a560aa5cdd6aeb5ba8b50840843e92417bf9476610a05fb3729dc2ca8180",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "3825-size-restore-after-computed.png",
+      "sha256": "46f8a716684a77d7caf37fc472283336775b338ead5e18b975b68da97e014d0e",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "3825-size-restore-before-original.png",
+      "sha256": "c28dbee15eac026b0cef88eed4cf5ae8cfc2747988eea15283a3ece86eb11456",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "3825-size-restore-after-original.png",
+      "sha256": "698341fd49e1fcaece762eea0690cd63896005b7b6468ef96396241f26e8d187",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "3825-size-restore-before-dual-computed-light.png",
+      "sha256": "5979ad3a376965489e16af4485748c3c4f0e0ba655e51306ddeeb3088e976b90",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "3825-size-restore-after-dual-computed-light.png",
+      "sha256": "78111faf5aaa47159e78d4f60c3a0cfc85647bad178309f42e26f676edd75af2",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "3825-size-restore-before-dual-changed-scale2.png",
+      "sha256": "68b266c80efcd5c46acbbf36753a10f0326a3e51c0452d87a2dc8fb9d86480c1",
+      "dimensions": [
+        2400,
+        1800
+      ]
+    },
+    {
+      "file": "3825-size-restore-after-dual-changed-scale2.png",
+      "sha256": "68b266c80efcd5c46acbbf36753a10f0326a3e51c0452d87a2dc8fb9d86480c1",
+      "dimensions": [
+        2400,
+        1800
+      ]
+    }
+  ],
+  "pixel_differences": [
+    {
+      "case": "computed",
+      "changed_pixel_bounds": [
+        730,
+        310,
+        739,
+        319
+      ],
+      "change_confined_to_restore_button": true
+    },
+    {
+      "case": "original",
+      "changed_pixel_bounds": [
+        729,
+        310,
+        739,
+        319
+      ],
+      "change_confined_to_restore_button": true
+    },
+    {
+      "case": "dual-computed-light",
+      "changed_pixel_bounds": [
+        730,
+        344,
+        739,
+        353
+      ],
+      "change_confined_to_restore_button": true
+    },
+    {
+      "case": "dual-changed-scale2",
+      "changed_pixel_bounds": null,
+      "change_confined_to_restore_button": true
+    }
+  ]
+}
