@@ -1,0 +1,118 @@
+[
+  {
+    "activation_journal_delta": 1,
+    "canvas_tab_binding": "cleared for navigation fixture only",
+    "case": "medium",
+    "focus_journal_delta": 0,
+    "focus_name": "Lock: Scattering",
+    "focus_rect": [
+      446.0,
+      264.5,
+      464.0,
+      282.5
+    ],
+    "focus_ring_visible": true,
+    "focused": true,
+    "idle_png": "brush-lock-focus-after-idle.png",
+    "initially_locked": false,
+    "language": "en",
+    "other_fields_and_presets_unchanged": true,
+    "png": "brush-lock-focus-after-medium.png",
+    "scale": 1.0,
+    "section_unchanged": true,
+    "space_keeps_focus_feedback": true,
+    "tab_moves_focus_and_removes_indicator": true,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "activation_journal_delta": 1,
+    "canvas_tab_binding": "cleared for navigation fixture only",
+    "case": "light",
+    "focus_journal_delta": 0,
+    "focus_name": "Lock: Scattering",
+    "focus_rect": [
+      446.0,
+      264.5,
+      464.0,
+      282.5
+    ],
+    "focus_ring_visible": true,
+    "focused": true,
+    "idle_png": null,
+    "initially_locked": true,
+    "language": "en",
+    "other_fields_and_presets_unchanged": true,
+    "png": "brush-lock-focus-after-light.png",
+    "scale": 1.0,
+    "section_unchanged": true,
+    "space_keeps_focus_feedback": true,
+    "tab_moves_focus_and_removes_indicator": true,
+    "theme": "proLight",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  },
+  {
+    "activation_journal_delta": 1,
+    "canvas_tab_binding": "cleared for navigation fixture only",
+    "case": "scale2",
+    "focus_journal_delta": 0,
+    "focus_name": "Lock: Scattering",
+    "focus_rect": [
+      189.0,
+      204.5,
+      207.0,
+      222.5
+    ],
+    "focus_ring_visible": true,
+    "focused": true,
+    "idle_png": null,
+    "initially_locked": false,
+    "language": "en",
+    "other_fields_and_presets_unchanged": true,
+    "png": "brush-lock-focus-after-scale2.png",
+    "scale": 2.0,
+    "section_unchanged": true,
+    "space_keeps_focus_feedback": true,
+    "tab_moves_focus_and_removes_indicator": true,
+    "theme": "proMedium",
+    "window": [
+      900.0,
+      720.0
+    ]
+  },
+  {
+    "activation_journal_delta": 1,
+    "canvas_tab_binding": "cleared for navigation fixture only",
+    "case": "turkish",
+    "focus_journal_delta": 0,
+    "focus_name": "Kilit: Saçılma",
+    "focus_rect": [
+      446.0,
+      264.5,
+      464.0,
+      282.5
+    ],
+    "focus_ring_visible": true,
+    "focused": true,
+    "idle_png": null,
+    "initially_locked": true,
+    "language": "tr",
+    "other_fields_and_presets_unchanged": true,
+    "png": "brush-lock-focus-after-turkish.png",
+    "scale": 1.0,
+    "section_unchanged": true,
+    "space_keeps_focus_feedback": true,
+    "tab_moves_focus_and_removes_indicator": true,
+    "theme": "proMedium",
+    "window": [
+      1200.0,
+      900.0
+    ]
+  }
+]

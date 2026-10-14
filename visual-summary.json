@@ -1,0 +1,159 @@
+{
+  "all_10_images_inspected": true,
+  "idle_pair_pixel_identical": true,
+  "focused_changed_pixels_within_lock_bounds": true,
+  "measurements": [
+    {
+      "case": "medium",
+      "changed_pixels": 84,
+      "difference_bounds": [
+        446,
+        265,
+        464,
+        283
+      ],
+      "lock_bounds_with_antialias_padding": [
+        444,
+        262,
+        466,
+        285
+      ]
+    },
+    {
+      "case": "light",
+      "changed_pixels": 84,
+      "difference_bounds": [
+        446,
+        265,
+        464,
+        283
+      ],
+      "lock_bounds_with_antialias_padding": [
+        444,
+        262,
+        466,
+        285
+      ]
+    },
+    {
+      "case": "scale2",
+      "changed_pixels": 288,
+      "difference_bounds": [
+        378,
+        409,
+        414,
+        445
+      ],
+      "lock_bounds_with_antialias_padding": [
+        376,
+        407,
+        416,
+        447
+      ]
+    },
+    {
+      "case": "turkish",
+      "changed_pixels": 84,
+      "difference_bounds": [
+        446,
+        265,
+        464,
+        283
+      ],
+      "lock_bounds_with_antialias_padding": [
+        444,
+        262,
+        466,
+        285
+      ]
+    }
+  ],
+  "images": [
+    {
+      "file": "brush-lock-focus-before-medium.png",
+      "sha256": "68dd1feee955539353f25ab436b0c554a1b6605563211348e8d5056202bd1aa6",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-after-medium.png",
+      "sha256": "03ab7ddc3677e974bcc8b0944c6f64bab1a401dd156f8307add5fd0d1798a034",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-before-light.png",
+      "sha256": "0c91faee35b28b342c4759c620d6124e892e8a545b3bdecacef25457e2539a14",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-after-light.png",
+      "sha256": "e8385172f56afb22f742ae20d2860082774fe9f6647f397757be6afba0bd1eb2",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-before-scale2.png",
+      "sha256": "d69452d7c245fd1a0c54c35d1b8e100f03ac363a34576eed87780f39fef30376",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "brush-lock-focus-after-scale2.png",
+      "sha256": "2924ac342a914776cd97619e4a958891964d41dec6a02bc3dea32378e15669a4",
+      "dimensions": [
+        1800,
+        1440
+      ]
+    },
+    {
+      "file": "brush-lock-focus-before-turkish.png",
+      "sha256": "ba456b1b52a5377e8685784c6201425890839386011585eda5a7e5232b1a9837",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-after-turkish.png",
+      "sha256": "db7da9719f6addb7ead750b8a42305f28356cd45b024e6802bd18c133db9e213",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-before-idle.png",
+      "sha256": "68dd1feee955539353f25ab436b0c554a1b6605563211348e8d5056202bd1aa6",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "brush-lock-focus-after-idle.png",
+      "sha256": "68dd1feee955539353f25ab436b0c554a1b6605563211348e8d5056202bd1aa6",
+      "dimensions": [
+        1200,
+        900
+      ]
+    }
+  ],
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_panel.rs": "f958d438a6699ed4135ee50b1fab78093e9bc08e73794c7b106bfdde5f3acb7a",
+    "crates/ui-egui/src/brush_panel_tests.rs": "0f32bb6880c106438c72c7e3b8cb64def9621137ad4ec69db9f4e16ffc326900",
+    "docs/brush-parity.md": "1a59a81b3c456bd67ceb3f7d985884d7526105d5897a5f895020c82c9da4972a",
+    "docs/gaps.md": "644d53dd6cc7d9ade13ba12cd540f5850b67d081017f465430b19e0d48fa9792"
+  }
+}
