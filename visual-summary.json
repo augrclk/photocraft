@@ -1,0 +1,79 @@
+{
+  "all_8_images_inspected": true,
+  "fixture_matches": true,
+  "observations": "All four real creation paths show Brush 1, duplicate warning and disabled OK before. After they show Brush 3, no duplicate warning and enabled OK; the dialog fits the viewport in Medium/Light and 1x/2x. A single save adds one preset and preserves all prior preset structs. No Photoshop pixel oracle.",
+  "source_file_sha256": {
+    "crates/ui-egui/src/brush_panel.rs": "826043cb13774d450bb5f9e5782d259a1479ee9177597ae62f8a1eebcbd08f57",
+    "crates/ui-egui/src/brush_panel_tests.rs": "619f772fa3f0bc4733fce6bb0d41ab250bb1467c5555c2bda208167d5b20130d",
+    "crates/ui-egui/src/brush_preset_dialog.rs": "4fe755827e568d45a4355e5c28c0916fc8bcf262feb807991d7c4753e1480866",
+    "crates/ui-egui/src/brush_preset_dialog_tests.rs": "7eca912b5c291a8403f9e5b3963a082ab0fcdb45546519994053fdd8bfcdcf01",
+    "docs/brush-parity.md": "0f24bd25e439fa89054ff339274d07eb3079c968cc1779480e7efc15813e3b80",
+    "docs/gaps.md": "3810730a6c61922b5762c73bf0a2c980a0b66fa91326791cb38ec80181d95b4c"
+  },
+  "images": [
+    {
+      "file": "preset-name-case-before-menu-medium.png",
+      "sha256": "095e5dbc3d5059574f557f1b7d856fa16d7daf1a311250cfbe5ec3ad5d026b78",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-name-case-after-menu-medium.png",
+      "sha256": "e207baaceac6487c45ad27254939a45bc8ae6437fcd52d34aa4b16a394d3343c",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-name-case-before-picker-light.png",
+      "sha256": "4f8fcb89e81fbd0f182a5e33a028f1e3f66f0991342da062404f51b85f19af94",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-name-case-after-picker-light.png",
+      "sha256": "7715ee275617f56d514a5d2bfeeb5d1d0c851d10a9297736165e1c4b7dc97d90",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-name-case-before-menu-scale2.png",
+      "sha256": "9d2e854deaca80882c2062271ce345ba31b6e9ad3a0c17ed82c733a75d95871c",
+      "dimensions": [
+        2400,
+        1800
+      ]
+    },
+    {
+      "file": "preset-name-case-after-menu-scale2.png",
+      "sha256": "806bd9905d8f0f989a3c5c7d9bb285659d20c6f6820ddcc68c83ec75375bd271",
+      "dimensions": [
+        2400,
+        1800
+      ]
+    },
+    {
+      "file": "preset-name-case-before-brushes-menu.png",
+      "sha256": "faee56d8ec8b6c8a685ec50bb8b4e34bb3b948a6ee9e7e47357c98ebb787b8c3",
+      "dimensions": [
+        1200,
+        900
+      ]
+    },
+    {
+      "file": "preset-name-case-after-brushes-menu.png",
+      "sha256": "7c2aed272d7c1ab488504dac9cd4d80964ae8f67e3754803f4c51d030a3e803d",
+      "dimensions": [
+        1200,
+        900
+      ]
+    }
+  ]
+}
