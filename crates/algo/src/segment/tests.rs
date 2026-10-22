@@ -752,6 +752,38 @@ fn object_at_finds_the_disc_under_the_cursor() {
 }
 
 #[test]
+fn object_at_keeps_large_foregrounds_but_not_the_surrounding_background() {
+    let (w, h) = (400, 300);
+    for margin in [30, 20, 8] {
+        let inside = |x: usize, y: usize| x >= margin && x < w - margin && y >= margin && y < h - margin;
+        let img = RgbImage::from_fn(w, h, |x, y| {
+            let noise = ((x * 13 + y * 7) % 17) as f32 / 850.0;
+            if inside(x, y) { [0.8 + noise, 0.2, 0.1] } else { [0.1, 0.2, 0.8 + noise] }
+        });
+        let truth: Vec<_> = (0..w * h).map(|i| inside(i % w, i / w)).collect();
+        let sampler = ImageSampler { img: &img, origin: (-40, 25) };
+        let canvas = Rect::new(-40, 25, w as i32 - 40, h as i32 + 25);
+        let region = grabcut::object_at(&sampler, canvas, 160.0, 175.0, grabcut::OBJECT_AT_WORK_PX)
+            .unwrap_or_else(|| panic!("missing large foreground with margin {margin}"));
+        let local = Region { bbox: region.bbox.translate(40, -25), mask: region.mask };
+        assert!(iou(&local, &truth, w, h) > 0.95, "margin {margin}");
+        assert!(grabcut::object_at(&sampler, canvas, -39.0, 26.0, grabcut::OBJECT_AT_WORK_PX).is_none(), "background margin {margin}");
+    }
+}
+
+#[test]
+fn object_at_allows_a_foreground_touching_one_edge_but_rejects_a_flat_image() {
+    let img = RgbImage::from_fn(400, 300, |x, y| if x < 360 && (20..280).contains(&y) { [0.8, 0.2, 0.1] } else { [0.1, 0.2, 0.8] });
+    let sampler = ImageSampler { img: &img, origin: (0, 0) };
+    let canvas = Rect::new(0, 0, 400, 300);
+    let region = grabcut::object_at(&sampler, canvas, 200.0, 150.0, grabcut::OBJECT_AT_WORK_PX).unwrap();
+    assert!(region.at(0, 150) > 0.9 && region.at(350, 150) > 0.9);
+    assert!(region.at(380, 150) < 0.1 && region.at(200, 5) < 0.1);
+    let flat = RgbImage::from_fn(400, 300, |_, _| [0.5; 3]);
+    assert!(grabcut::object_at(&ImageSampler { img: &flat, origin: (0, 0) }, canvas, 200.0, 150.0, grabcut::OBJECT_AT_WORK_PX).is_none());
+}
+
+#[test]
 fn object_at_on_the_background_or_off_canvas_finds_nothing() {
     let (img, _) = disc_scene(320, 240, 160.0, 120.0, 70.0, 7);
     let s = ImageSampler { img: &img, origin: (0, 0) };
@@ -760,6 +792,28 @@ fn object_at_on_the_background_or_off_canvas_finds_nothing() {
     assert!(grabcut::object_at(&s, canvas, -5.0, 10.0, 20_000).is_none());
     assert!(grabcut::object_at(&s, canvas, f32::NAN, 10.0, 20_000).is_none());
     assert!(grabcut::object_at(&s, canvas, 400.0, 10.0, 0).is_none());
+}
+
+/// #6576: a 24 px object in a 4000×3000 document is found (a 1000×800 one still is).
+#[test]
+fn object_at_finds_small_object_in_large_canvas() {
+    let (w, h) = (4000usize, 3000usize);
+    let canvas = Rect::new(0, 0, w as i32, h as i32);
+    for (ox, oy, ow, oh) in [(188usize, 138usize, 24usize, 24usize), (1500, 1100, 1000, 800)] {
+        let inside = |x: usize, y: usize| x >= ox && x < ox + ow && y >= oy && y < oy + oh;
+        let img = RgbImage::from_fn(w, h, |x, y| if inside(x, y) { [0.8, 0.1, 0.1] } else { [0.9, 0.9, 0.9] });
+        let truth: Vec<bool> = (0..w * h).map(|i| inside(i % w, i / w)).collect();
+        let s = ImageSampler { img: &img, origin: (0, 0) };
+        let (cx, cy) = ((ox + ow / 2) as f32, (oy + oh / 2) as f32);
+        let reg = grabcut::object_at(&s, canvas, cx, cy, grabcut::OBJECT_AT_WORK_PX);
+        let reg = reg.unwrap_or_else(|| panic!("the {ow}×{oh} object is not found"));
+        let v = iou(&reg, &truth, w, h);
+        assert!(v > 0.8, "{ow}×{oh}: IoU {v}");
+    }
+    // The flat background around the small object is still nothing.
+    let img = RgbImage::from_fn(w, h, |x, y| if (188..212).contains(&x) && (138..162).contains(&y) { [0.8, 0.1, 0.1] } else { [0.9, 0.9, 0.9] });
+    let s = ImageSampler { img: &img, origin: (0, 0) };
+    assert!(grabcut::object_at(&s, canvas, 400.0, 300.0, grabcut::OBJECT_AT_WORK_PX).is_none());
 }
 
 // ---------- Select Subject on the cases reported in #2788 ----------
@@ -911,4 +965,62 @@ fn select_subject_dump_pictures() {
     let reg = subject::select_subject(&s, Rect::new(0, 0, w as i32, h as i32));
     write("ring", &img, None);
     write("ring-selected", &img, reg.as_ref());
+}
+
+/// A dark square on a light background with a square hole that shows the background colour.
+fn square_with_hole(hole: usize) -> RgbImage {
+    let (w, h) = (400usize, 300usize);
+    let mut rng = Rng::new(11);
+    let (x0, y0) = (100usize, 50usize);
+    RgbImage::from_fn(w, h, |x, y| {
+        let n = 0.02 * rng.normal();
+        let in_square = x >= x0 && x < x0 + 200 && y >= y0 && y < y0 + 200;
+        let in_hole = x >= x0 + 96 && x < x0 + 96 + hole && y >= y0 + 96 && y < y0 + 96 + hole;
+        let c = if in_square && !in_hole { [0.1, 0.12, 0.15] } else { [0.9, 0.9, 0.85] };
+        c.map(|v: f32| (v + n).clamp(0.0, 1.0))
+    })
+}
+
+#[test]
+fn object_select_keeps_small_background_hole_open() {
+    let img = square_with_hole(8);
+    let s = ImageSampler { img: &img, origin: (0, 0) };
+    let canvas = Rect::new(0, 0, 400, 300);
+    let reg = grabcut::object_select(&s, canvas, Rect::new(80, 30, 320, 270), 1_000_000).unwrap();
+    assert!(reg.at(150, 100) >= 0.5, "the square itself is selected");
+    assert!(reg.at(200, 150) < 0.5, "background seen through the object stays unselected");
+}
+
+#[test]
+fn object_at_keeps_small_background_hole_open() {
+    let img = square_with_hole(16);
+    let s = ImageSampler { img: &img, origin: (0, 0) };
+    let canvas = Rect::new(0, 0, 400, 300);
+    let reg = grabcut::object_at(&s, canvas, 130.0, 80.0, 1_000_000).unwrap();
+    assert!(reg.at(150, 100) >= 0.5, "the square itself is selected");
+    assert!(reg.at(203, 153) < 0.5, "background seen through the object stays unselected");
+}
+
+#[test]
+fn hole_fill_without_specks_fills_object_coloured_holes_only() {
+    // The hole check Object Selection uses: no hole fills just for being small, a speck of the object's colour still does.
+    let (w, h) = (40usize, 40usize);
+    let mut rng = Rng::new(5);
+    let in_square = |x: usize, y: usize| (5..35).contains(&x) && (5..35).contains(&y);
+    let bg_hole = |x: usize, y: usize| (10..12).contains(&x) && (10..12).contains(&y);
+    let fg_hole = |x: usize, y: usize| (25..27).contains(&x) && (25..27).contains(&y);
+    let img = RgbImage::from_fn(w, h, |x, y| {
+        let n = 0.02 * rng.normal();
+        let c = if in_square(x, y) && !bg_hole(x, y) { [0.1, 0.12, 0.15] } else { [0.9, 0.9, 0.85] };
+        c.map(|v: f32| (v + n).clamp(0.0, 1.0))
+    });
+    let mask: Vec<bool> = (0..w * h).map(|i| in_square(i % w, i / w) && !bg_hole(i % w, i / w) && !fg_hole(i % w, i / w)).collect();
+    // The colour models, as GrabCut would fit them: the object colour vs. the backdrop colour.
+    let dark: Vec<bool> = (0..w * h).map(|i| in_square(i % w, i / w) && !bg_hole(i % w, i / w)).collect();
+    let (fs, bs): (Vec<_>, Vec<_>) = img.px.iter().zip(&dark).partition(|(_, m)| **m);
+    let fit = |v: Vec<(&[f32; 3], &bool)>| Gmm::fit(&v.iter().map(|(p, _)| **p).collect::<Vec<_>>(), 3, gmm::DEFAULT_REG).unwrap();
+    let (fg, bg) = (fit(fs), fit(bs));
+    let out = fill_holes_by_model(&mask, &img, &fg, &bg, 0.0, 0.05);
+    assert!(out[25 * w + 25], "a speck of the object's colour fills");
+    assert!(!out[10 * w + 10], "a speck of the background's colour stays open");
 }
