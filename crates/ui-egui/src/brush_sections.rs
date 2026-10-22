@@ -8,6 +8,7 @@ use photocraft_engine::BrushSettings;
 use photocraft_engine::paint::{self, BrushPreset, Control, Dynamic, MAX_BRUSH_SIZE, MaskMode, Pattern, PatternStyle, TipShape};
 
 use crate::brush_preview;
+use crate::state::Tool;
 use crate::theme::{self, Tokens};
 use crate::widgets;
 
@@ -547,12 +548,16 @@ fn color_dynamics(ui: &mut egui::Ui, b: &mut BrushSettings) {
     signed_pct(ui, tl!("Purity"), &mut c.purity, -1.0, 1.0);
 }
 
-fn transfer(ui: &mut egui::Ui, b: &mut BrushSettings) {
+fn transfer(ui: &mut egui::Ui, b: &mut BrushSettings, tool: Tool) {
     let tr = &mut b.transfer;
     dynamic(ui, "brush-opacity-ctl", tl!("Opacity Jitter"), &mut tr.opacity, 1.0, Some(tl!("Minimum")), false);
     dynamic(ui, "brush-flow-ctl", tl!("Flow Jitter"), &mut tr.flow, 1.0, Some(tl!("Minimum")), false);
-    dynamic(ui, "brush-wet-ctl", tl!("Wetness Jitter"), &mut tr.wetness, 1.0, Some(tl!("Minimum")), false);
-    dynamic(ui, "brush-mix-ctl", tl!("Mix Jitter"), &mut tr.mix, 1.0, Some(tl!("Minimum")), false);
+    // Wetness and mix only affect the Mixer Brush. Keep their settings visible and saved
+    // for other tools, but disable the whole blocks, including controllers and minimums.
+    ui.add_enabled_ui(tool == Tool::MixerBrush, |ui| {
+        dynamic(ui, "brush-wet-ctl", tl!("Wetness Jitter"), &mut tr.wetness, 1.0, Some(tl!("Minimum")), false);
+        dynamic(ui, "brush-mix-ctl", tl!("Mix Jitter"), &mut tr.mix, 1.0, Some(tl!("Minimum")), false);
+    });
 }
 
 /// The Mixer Brush options the brush carries (Photoshop shows them in the Mixer Brush's options
@@ -570,6 +575,8 @@ fn mixer_options(ui: &mut egui::Ui, b: &mut BrushSettings) {
     pct(ui, tl!("Mix"), &mut m.mix, 1.0);
     pct(ui, tl!("Flow"), &mut m.flow, 1.0);
     widgets::checkbox(ui, &mut m.sample_all_layers, "Sample All Layers");
+    widgets::checkbox(ui, &mut m.load_after_stroke, tl!("Load the brush after each stroke"));
+    widgets::checkbox(ui, &mut m.clean_after_stroke, tl!("Clean the brush after each stroke"));
 }
 
 /// Tilt is stored in degrees (±90, W3C Pointer Events); Photoshop shows it as ±100 %.
@@ -583,8 +590,10 @@ fn tilt(ui: &mut egui::Ui, label: &str, deg: &mut f32) {
 fn pose(ui: &mut egui::Ui, b: &mut BrushSettings) {
     let p = &mut b.pose;
     tilt(ui, tl!("Tilt X"), &mut p.tilt_x);
+    widgets::checkbox(ui, &mut p.override_tilt_x, tl!("Override Tilt X"));
+    ui.add_space(8.0);
     tilt(ui, tl!("Tilt Y"), &mut p.tilt_y);
-    widgets::checkbox(ui, &mut p.override_tilt, tl!("Override Tilt"));
+    widgets::checkbox(ui, &mut p.override_tilt_y, tl!("Override Tilt Y"));
     ui.add_space(8.0);
     num(ui, tl!("Rotation"), &mut p.rotation, 0.0..=360.0, "°");
     widgets::checkbox(ui, &mut p.override_rotation, tl!("Override Rotation"));
@@ -605,7 +614,8 @@ fn smoothing(ui: &mut egui::Ui, b: &mut BrushSettings) {
 /// Controls for section `i` (see [`crate::brush_panel::SECTIONS`]). `presets` feed the tip grids.
 /// Returns the name of a preset whose tip was picked in the Brush Tip Shape grid, for
 /// `brush.presets.setCurrent`.
-pub fn section_body(ui: &mut egui::Ui, b: &mut BrushSettings, i: usize, presets: &[BrushPreset], current: Option<&str>) -> Option<String> {
+/// The active `tool` determines which Transfer controls apply.
+pub fn section_body(ui: &mut egui::Ui, b: &mut BrushSettings, i: usize, presets: &[BrushPreset], current: Option<&str>, tool: Tool) -> Option<String> {
     let t = Tokens::get(ui.ctx());
     let note = |ui: &mut egui::Ui, s: &str| {
         ui.label(RichText::new(s).color(t.text_faint).font(theme::medium(11.5)));
@@ -620,7 +630,7 @@ pub fn section_body(ui: &mut egui::Ui, b: &mut BrushSettings, i: usize, presets:
         4 => dual_brush(ui, b, presets),
         5 => color_dynamics(ui, b),
         6 => {
-            transfer(ui, b);
+            transfer(ui, b, tool);
             mixer_options(ui, b);
         }
         7 => pose(ui, b),
@@ -670,7 +680,7 @@ mod tests {
                     ready = true;
                     return;
                 }
-                section_body(ui, b, section, &[], None);
+                section_body(ui, b, section, &[], None, Tool::MixerBrush);
             },
             b,
         );
@@ -678,104 +688,38 @@ mod tests {
         h
     }
 
-    fn tip_geometry_center(h: &Harness<'static, BrushSettings>) -> egui::Pos2 {
-        fn centre(shape: &egui::Shape) -> Option<egui::Pos2> {
-            match shape {
-                egui::Shape::Circle(c) if c.radius == 40.0 => Some(c.center),
-                egui::Shape::Vec(shapes) => shapes.iter().find_map(centre),
-                _ => None,
-            }
-        }
-        h.output().shapes.iter().find_map(|shape| centre(&shape.shape)).unwrap()
-    }
-
     #[test]
-    fn tip_geometry_fields_precede_the_widget_and_labels_align_in_all_themes() {
+    fn pose_axes_controls_are_independent_and_below_each_tilt_in_all_themes() {
+        use egui::accesskit::Toggled;
         for kind in theme::ThemeKind::ALL {
-            for width in [280.0, 340.0] {
-                let b = BrushSettings { angle: -23.0, roundness: 0.473, ..Default::default() };
-                let mut h = section_harness_width(0, width, b.clone());
-                crate::PhotocraftApp::setup_context(&h.ctx, kind);
-                h.run_steps(3);
-                let centre = tip_geometry_center(&h);
-                let angle = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(-23.0)).unwrap().rect();
-                let roundness = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(47.0)).unwrap().rect();
-                let angle_label = h.get_by_label("Angle:").rect();
-                let roundness_label = h.get_by_label("Roundness:").rect();
-                assert!(
-                    angle.right() + 2.0 < centre.x - 40.0 && roundness.right() + 2.0 < centre.x - 40.0,
-                    "{kind:?}, {width}: fields belong left of the widget"
-                );
-                assert!((angle.left() - roundness.left()).abs() < 0.5, "{kind:?}, {width}: one numeric column");
-                assert!((angle_label.right() - roundness_label.right()).abs() < 0.5, "{kind:?}, {width}: labels align to the right");
-                assert!((angle_label.center().y - angle.center().y).abs() < 2.0 && (roundness_label.center().y - roundness.center().y).abs() < 2.0);
-                assert_eq!(h.state(), &b, "layout does not round imported values");
-            }
+            let b: BrushSettings = serde_json::from_value(serde_json::json!({"pose": {
+                "enabled": true, "tiltX": 45.0, "tiltY": -18.0,
+                "overrideTiltX": true, "overrideTiltY": false,
+                "pressure": 0.71, "rotation": 67.0
+            }}))
+            .unwrap();
+            let mut h = section_harness(7, b.clone());
+            crate::PhotocraftApp::setup_context(&h.ctx, kind);
+            h.run_steps(3);
+            let x = h.get_by_role_and_label(Role::CheckBox, "Override Tilt X");
+            let y = h.get_by_role_and_label(Role::CheckBox, "Override Tilt Y");
+            assert_eq!(x.accesskit_node().toggled(), Some(Toggled::True));
+            assert_eq!(y.accesskit_node().toggled(), Some(Toggled::False));
+            assert!(h.get_by_label("Tilt X").rect().bottom() < x.rect().top() && x.rect().bottom() < h.get_by_label("Tilt Y").rect().top());
+            assert!(h.get_by_label("Tilt Y").rect().bottom() < y.rect().top() && y.rect().bottom() < h.get_by_label("Rotation").rect().top());
+            assert_eq!(h.state(), &b, "drawing preserves pose degrees and flags");
+            y.focus();
+            h.run_steps(1);
+            h.key_press(egui::Key::Space);
+            h.run_steps(2);
+            let wire = serde_json::to_value(h.state()).unwrap();
+            assert_eq!(wire["pose"]["overrideTiltX"], true);
+            assert_eq!(wire["pose"]["overrideTiltY"], true);
+            let mut expected = serde_json::to_value(b).unwrap();
+            expected["pose"]["overrideTiltY"] = serde_json::json!(true);
+            expected["pose"]["overrideTilt"] = serde_json::json!(true);
+            assert_eq!(wire, expected, "Space changes only Y, plus the derived legacy readback");
         }
-    }
-
-    #[test]
-    fn tip_geometry_numeric_edits_keep_units_limits_and_other_settings() {
-        let mut b = BrushSettings { angle: -23.0, roundness: 0.473, hardness: 0.65, spacing: 0.31, flip_x: true, ..Default::default() };
-        let mut h = section_harness(0, b.clone());
-        let angle = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(-23.0)).unwrap();
-        angle.click();
-        h.key_press(egui::Key::ArrowUp);
-        h.run_steps(2);
-        b.angle = -22.0;
-        assert_eq!(h.state(), &b);
-        let roundness = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(47.0)).unwrap();
-        roundness.click();
-        h.key_press(egui::Key::ArrowUp);
-        h.run_steps(2);
-        b.roundness = 0.48;
-        assert_eq!(h.state(), &b, "percentage edits retain degrees and the rest of the brush");
-        for (angle, key) in [(-180.0, egui::Key::ArrowDown), (180.0, egui::Key::ArrowUp)] {
-            b.angle = angle;
-            *h.state_mut() = b.clone();
-            h.run_steps(2);
-            let field = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(f64::from(angle))).unwrap();
-            field.click();
-            h.key_press(key);
-            h.run_steps(2);
-            assert_eq!(h.state(), &b, "angle stays within -180..180 degrees");
-        }
-        for (value, key) in [(1.0, egui::Key::ArrowDown), (100.0, egui::Key::ArrowUp)] {
-            b.roundness = value / 100.0;
-            *h.state_mut() = b.clone();
-            h.run_steps(2);
-            let field = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(f64::from(value))).unwrap();
-            field.click();
-            h.key_press(key);
-            h.run_steps(2);
-            assert_eq!(h.state(), &b, "roundness stays within 1..100 percent");
-        }
-    }
-
-    #[test]
-    fn tip_geometry_pointer_drags_keep_angle_and_roundness_independent() {
-        let mut b = BrushSettings { roundness: 0.5, flip_x: true, ..Default::default() };
-        let mut h = section_harness(0, b.clone());
-        let c = tip_geometry_center(&h);
-        drag(&mut h, c + vec2(35.0, 0.0), c + vec2(0.0, -35.0));
-        b.angle = 90.0;
-        assert_eq!(h.state(), &b, "the arrow changes only the angle");
-        let handle = c + roundness_handles(b.angle, b.roundness)[0];
-        // Acquire the dot before moving beyond its hit radius.
-        h.hover_at(handle);
-        h.run_steps(2);
-        h.drag_at(handle);
-        h.run_steps(1);
-        h.hover_at(handle + vec2(-6.5, 0.0));
-        h.run_steps(2);
-        h.hover_at(c + vec2(-ELLIPSE_R * 0.8, 0.0));
-        h.run_steps(2);
-        h.drop_at(c + vec2(-ELLIPSE_R * 0.8, 0.0));
-        h.run_steps(2);
-        b.roundness = 0.8;
-        assert!((h.state().roundness - b.roundness).abs() < 1e-5, "a real handle drag keeps percentage units");
-        b.roundness = h.state().roundness;
-        assert_eq!(h.state(), &b, "the dot changes only the roundness");
     }
 
     /// #3825: jitter is an amount, not a hue selector; it uses the themed amount track.
@@ -799,6 +743,134 @@ mod tests {
             assert!(h.query_all_by_role(Role::SpinButton).any(|n| n.accesskit_node().numeric_value() == Some(37.0)));
             assert_eq!(h.state(), &b, "rendering does not change saved brush settings");
         }
+    }
+
+    struct TransferState {
+        brush: BrushSettings,
+        tool: Tool,
+    }
+
+    fn transfer_mixer_brush() -> BrushSettings {
+        let mut b = BrushSettings::default();
+        b.transfer.enabled = true;
+        for (dynamic, jitter, minimum, fade_steps) in [
+            (&mut b.transfer.opacity, 0.13, 0.17, 119),
+            (&mut b.transfer.flow, 0.27, 0.29, 229),
+            (&mut b.transfer.wetness, 0.41, 0.43, 339),
+            (&mut b.transfer.mix, 0.63, 0.67, 449),
+        ] {
+            *dynamic = Dynamic { control: Control::Fade, jitter, minimum, fade_steps, ..Default::default() };
+        }
+        b
+    }
+
+    fn transfer_mixer_harness(kind: theme::ThemeKind, tool: Tool) -> Harness<'static, TransferState> {
+        let mut ready = false;
+        let mut h = Harness::builder().with_size(vec2(340.0, 1400.0)).build_ui_state(
+            move |ui, state: &mut TransferState| {
+                if !ready {
+                    crate::PhotocraftApp::setup_context(ui.ctx(), kind);
+                    ready = true;
+                    return;
+                }
+                ui.add_enabled_ui(state.brush.transfer.enabled, |ui| section_body(ui, &mut state.brush, 6, &[], None, state.tool));
+            },
+            TransferState { brush: transfer_mixer_brush(), tool },
+        );
+        h.run_steps(3);
+        h
+    }
+
+    /// #3825: Mixer-only blocks follow the tool, including sliders, minimums and Fade steps.
+    #[test]
+    fn transfer_mixer_controls_follow_the_tool_and_section_in_every_theme() {
+        for kind in theme::ThemeKind::ALL {
+            let mut h = transfer_mixer_harness(kind, Tool::Brush);
+            let before = h.state().brush.clone();
+            for tool in Tool::ALL {
+                h.state_mut().tool = tool;
+                h.run_steps(2);
+                for (mixer_only, values) in [(false, [13.0, 17.0, 119.0, 27.0, 29.0, 229.0]), (true, [41.0, 43.0, 339.0, 63.0, 67.0, 449.0])] {
+                    for value in values {
+                        let field = h.query_all_by_role(Role::SpinButton).find(|node| node.accesskit_node().numeric_value() == Some(value)).unwrap();
+                        assert_eq!(field.accesskit_node().is_disabled(), mixer_only && tool != Tool::MixerBrush, "{kind:?}, {tool:?}, {value}");
+                    }
+                }
+                for (index, node) in h.query_all_by_role(Role::ComboBox).enumerate() {
+                    assert_eq!(node.accesskit_node().is_disabled(), index >= 2 && tool != Tool::MixerBrush, "{kind:?}, {tool:?}: controller {index}");
+                }
+                assert_eq!(h.state().brush, before, "changing tool context only changes availability");
+            }
+            h.state_mut().tool = Tool::MixerBrush;
+            h.state_mut().brush.transfer.enabled = false;
+            h.run_steps(2);
+            assert!(h.query_all_by_role(Role::SpinButton).all(|node| node.accesskit_node().is_disabled()), "section Off still disables every field");
+            assert!(h.query_all_by_role(Role::ComboBox).all(|node| node.accesskit_node().is_disabled()));
+            h.state_mut().brush.transfer.enabled = true;
+            h.state_mut().brush.transfer.wetness.control = Control::Off;
+            h.run_steps(2);
+            let minimum = h.query_all_by_role(Role::SpinButton).find(|node| node.accesskit_node().numeric_value() == Some(43.0)).unwrap();
+            assert!(minimum.accesskit_node().is_disabled(), "Control Off still disables the applicable minimum");
+        }
+    }
+
+    #[test]
+    fn transfer_mixer_controls_ignore_disabled_edits_and_keep_values_on_reactivation() {
+        let mut h = transfer_mixer_harness(theme::ThemeKind::ProMedium, Tool::Brush);
+        let before = h.state().brush.clone();
+        for value in [41.0, 43.0, 339.0, 63.0, 67.0, 449.0] {
+            let field = h.query_all_by_role(Role::SpinButton).find(|node| node.accesskit_node().numeric_value() == Some(value)).unwrap();
+            let at = field.rect().center();
+            field.click();
+            h.key_press(egui::Key::ArrowUp);
+            h.event(egui::Event::Text("999".into()));
+            h.key_press(egui::Key::Enter);
+            h.run_steps(2);
+            h.hover_at(at);
+            h.drag_at(at);
+            h.run_steps(1);
+            h.drop_at(at + vec2(60.0, 0.0));
+            h.run_steps(2);
+            assert_eq!(h.state().brush, before, "inactive field {value} ignores keyboard and pointer input");
+        }
+        for label in ["Wetness Jitter", "Mix Jitter"] {
+            let row = h.get_by_label(label).rect();
+            let from = pos2(row.left() + 120.0, row.bottom() + 16.0);
+            h.hover_at(from);
+            h.drag_at(from);
+            h.run_steps(1);
+            h.hover_at(from + vec2(150.0, 0.0));
+            h.run_steps(1);
+            h.drop_at(from + vec2(150.0, 0.0));
+            h.run_steps(2);
+            assert_eq!(h.state().brush, before, "the inactive {label} track ignores a drag");
+        }
+        h.state_mut().tool = Tool::MixerBrush;
+        h.run_steps(2);
+        let row = h.get_by_label("Wetness Jitter").rect();
+        let from = pos2(row.left() + 120.0, row.bottom() + 16.0);
+        h.hover_at(from);
+        h.drag_at(from);
+        h.run_steps(1);
+        h.hover_at(from + vec2(150.0, 0.0));
+        h.run_steps(1);
+        h.drop_at(from + vec2(150.0, 0.0));
+        h.run_steps(2);
+        assert!(h.state().brush.transfer.wetness.jitter > 0.6, "the same track accepts a drag when applicable");
+        h.state_mut().brush.transfer.wetness.jitter = 0.41;
+        h.run_steps(2);
+        let field = h.query_all_by_role(Role::SpinButton).find(|node| node.accesskit_node().numeric_value() == Some(41.0)).unwrap();
+        field.click();
+        h.key_press(egui::Key::ArrowUp);
+        h.run_steps(2);
+        assert!((h.state().brush.transfer.wetness.jitter - 0.42).abs() < 1e-6);
+        let after = h.state().brush.clone();
+        h.state_mut().tool = Tool::Brush;
+        h.run_steps(2);
+        h.state_mut().tool = Tool::MixerBrush;
+        h.run_steps(2);
+        assert_eq!(h.state().brush, after);
+        assert!(h.query_all_by_role(Role::SpinButton).any(|node| node.accesskit_node().numeric_value() == Some(42.0) && !node.accesskit_node().is_disabled()));
     }
 
     fn set_controls(b: &mut BrushSettings, control: Control) {
@@ -909,5 +981,105 @@ mod tests {
         assert!((h.x.abs() - ELLIPSE_R).abs() < 1e-3 && h.y.abs() < 1e-3, "{h:?}");
         let (_, r) = ellipse_drag(EllipseGrab::Roundness, vec2(500.0, 0.0), 90.0, 0.2);
         assert_eq!(r, 1.0);
+    }
+
+    fn tip_geometry_center(h: &Harness<'static, BrushSettings>) -> egui::Pos2 {
+        fn centre(shape: &egui::Shape) -> Option<egui::Pos2> {
+            match shape {
+                egui::Shape::Circle(c) if c.radius == 40.0 => Some(c.center),
+                egui::Shape::Vec(shapes) => shapes.iter().find_map(centre),
+                _ => None,
+            }
+        }
+        h.output().shapes.iter().find_map(|shape| centre(&shape.shape)).unwrap()
+    }
+
+    #[test]
+    fn tip_geometry_fields_precede_the_widget_and_labels_align_in_all_themes() {
+        for kind in theme::ThemeKind::ALL {
+            for width in [280.0, 340.0] {
+                let b = BrushSettings { angle: -23.0, roundness: 0.473, ..Default::default() };
+                let mut h = section_harness_width(0, width, b.clone());
+                crate::PhotocraftApp::setup_context(&h.ctx, kind);
+                h.run_steps(3);
+                let centre = tip_geometry_center(&h);
+                let angle = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(-23.0)).unwrap().rect();
+                let roundness = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(47.0)).unwrap().rect();
+                let angle_label = h.get_by_label("Angle:").rect();
+                let roundness_label = h.get_by_label("Roundness:").rect();
+                assert!(
+                    angle.right() + 2.0 < centre.x - 40.0 && roundness.right() + 2.0 < centre.x - 40.0,
+                    "{kind:?}, {width}: fields belong left of the widget"
+                );
+                assert!((angle.left() - roundness.left()).abs() < 0.5, "{kind:?}, {width}: one numeric column");
+                assert!((angle_label.right() - roundness_label.right()).abs() < 0.5, "{kind:?}, {width}: labels align to the right");
+                assert!((angle_label.center().y - angle.center().y).abs() < 2.0 && (roundness_label.center().y - roundness.center().y).abs() < 2.0);
+                assert_eq!(h.state(), &b, "layout does not round imported values");
+            }
+        }
+    }
+
+    #[test]
+    fn tip_geometry_numeric_edits_keep_units_limits_and_other_settings() {
+        let mut b = BrushSettings { angle: -23.0, roundness: 0.473, hardness: 0.65, spacing: 0.31, flip_x: true, ..Default::default() };
+        let mut h = section_harness(0, b.clone());
+        let angle = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(-23.0)).unwrap();
+        angle.click();
+        h.key_press(egui::Key::ArrowUp);
+        h.run_steps(2);
+        b.angle = -22.0;
+        assert_eq!(h.state(), &b);
+        let roundness = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(47.0)).unwrap();
+        roundness.click();
+        h.key_press(egui::Key::ArrowUp);
+        h.run_steps(2);
+        b.roundness = 0.48;
+        assert_eq!(h.state(), &b, "percentage edits retain degrees and the rest of the brush");
+        for (angle, key) in [(-180.0, egui::Key::ArrowDown), (180.0, egui::Key::ArrowUp)] {
+            b.angle = angle;
+            *h.state_mut() = b.clone();
+            h.run_steps(2);
+            let field = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(f64::from(angle))).unwrap();
+            field.click();
+            h.key_press(key);
+            h.run_steps(2);
+            assert_eq!(h.state(), &b, "angle stays within -180..180 degrees");
+        }
+        for (value, key) in [(1.0, egui::Key::ArrowDown), (100.0, egui::Key::ArrowUp)] {
+            b.roundness = value / 100.0;
+            *h.state_mut() = b.clone();
+            h.run_steps(2);
+            let field = h.query_all_by_role(Role::SpinButton).find(|n| n.accesskit_node().numeric_value() == Some(f64::from(value))).unwrap();
+            field.click();
+            h.key_press(key);
+            h.run_steps(2);
+            assert_eq!(h.state(), &b, "roundness stays within 1..100 percent");
+        }
+    }
+
+    #[test]
+    fn tip_geometry_pointer_drags_keep_angle_and_roundness_independent() {
+        let mut b = BrushSettings { roundness: 0.5, flip_x: true, ..Default::default() };
+        let mut h = section_harness(0, b.clone());
+        let c = tip_geometry_center(&h);
+        drag(&mut h, c + vec2(35.0, 0.0), c + vec2(0.0, -35.0));
+        b.angle = 90.0;
+        assert_eq!(h.state(), &b, "the arrow changes only the angle");
+        let handle = c + roundness_handles(b.angle, b.roundness)[0];
+        // Acquire the dot before moving beyond its hit radius.
+        h.hover_at(handle);
+        h.run_steps(2);
+        h.drag_at(handle);
+        h.run_steps(1);
+        h.hover_at(handle + vec2(-6.5, 0.0));
+        h.run_steps(2);
+        h.hover_at(c + vec2(-ELLIPSE_R * 0.8, 0.0));
+        h.run_steps(2);
+        h.drop_at(c + vec2(-ELLIPSE_R * 0.8, 0.0));
+        h.run_steps(2);
+        b.roundness = 0.8;
+        assert!((h.state().roundness - b.roundness).abs() < 1e-5, "a real handle drag keeps percentage units");
+        b.roundness = h.state().roundness;
+        assert_eq!(h.state(), &b, "the dot changes only the roundness");
     }
 }
