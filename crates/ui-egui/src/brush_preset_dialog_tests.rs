@@ -46,6 +46,19 @@ fn settings_menu(h: &mut Harness<'_, PhotocraftApp>, tab: usize) {
     assert!(settled, "the menu target must settle before clicking");
     h.get_by_role_and_label(egui::accesskit::Role::Window, "Brush Settings").get_by_label("Panel menu").click();
     h.run_steps(3);
+    // The popup can clamp independently when the taller Brushes tab first receives hover.
+    // Re-query its row after pointer frames too; click once and keep the dialog checks.
+    let mut row_settled = false;
+    for _ in 0..8 {
+        let row = h.get_by_label("New Brush Preset…").rect();
+        h.hover_at(row.center());
+        h.run_steps(2);
+        if row == h.get_by_label("New Brush Preset…").rect() {
+            row_settled = true;
+            break;
+        }
+    }
+    assert!(row_settled, "the menu item must settle before clicking");
     h.get_by_label("New Brush Preset…").click();
     h.run_steps(3);
 }
@@ -89,7 +102,8 @@ fn every_new_preset_button_opens_the_dialog_and_cancel_saves_nothing() {
     h.run_steps(3);
     cancel(&mut h);
     h.state_mut().ui.brush_tab = 1;
-    h.run_steps(3);
+    // The window grows by the preview-size slider row over several frames; wait for it to settle.
+    h.run_steps(8);
     h.get_by_label("Create new brush from the current settings").click();
     h.run_steps(3);
     cancel(&mut h);

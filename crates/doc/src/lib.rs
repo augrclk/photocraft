@@ -1,4 +1,4 @@
-//! The Photocraft document model: pure data, no rendering, no UI.
+//! The PhotoCraft document model: pure data, no rendering, no UI.
 //!
 //! Layer order: inside every group (and the root), `children[0]` is the **bottom** layer, matching
 //! compositing order and the PSD file order. UIs display the list reversed.
@@ -659,6 +659,10 @@ pub struct Layer {
     pub advanced: AdvancedBlending,
     /// Layer › Video Layers frame stack (None for a normal layer).
     pub video: Option<VideoData>,
+    /// The layer's own XMP packet (Photoshop's `layer.xmpMetadata.rawData`), where scripts and
+    /// embedding apps keep data about the layer under their own namespaces. Copied by
+    /// [`Layer::duplicate`], as in Photoshop. PSD `shmd` › `cust` › `layerXMP`.
+    pub xmp: Option<Arc<str>>,
 }
 
 impl Layer {
@@ -692,6 +696,7 @@ impl Layer {
             blend_if: BlendIf::default(),
             advanced: AdvancedBlending::default(),
             video: None,
+            xmp: None,
         }
     }
     pub fn raster(name: impl Into<String>, format: PixelFormat) -> Self {
@@ -912,8 +917,8 @@ pub struct Document {
     pub variables: Variables,
     /// Window › Timeline (None until a video timeline is created).
     pub timeline: Option<Timeline>,
-    /// How the document's lossy file was encoded (its JPEG quality, WebP lossy or lossless), so
-    /// a save writes it back the same way rather than at fixed defaults.
+    /// How the document's lossy file was encoded (its JPEG quality, WebP lossy or lossless,
+    /// PNG stereo pairing), so a save writes it back the same way rather than at fixed defaults.
     pub file_encoding: FileEncoding,
 }
 
@@ -932,6 +937,11 @@ pub struct FileEncoding {
     /// Lossy WebP quality.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub webp_quality: Option<u8>,
+    /// PNG stereo pairing (the `sTER` chunk's mode byte, PNG Extensions 1.4.0 §3.6): `Some(0)`
+    /// cross-fuse (right eye first), `Some(1)` diverging-fuse (left eye first). Both are
+    /// side by side; saving a stereo PNG keeps this eye-order mark (#6063).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub png_stereo: Option<u8>,
 }
 
 impl FileEncoding {
