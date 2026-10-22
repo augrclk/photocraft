@@ -163,19 +163,29 @@ fn info_and_convert_report_decode_warnings() {
         gif.extend_from_slice(b"\x2C\0\0\0\0\x01\0\x01\0\0\x02\x02\x44\x01\0");
     }
     gif.push(0x3B);
+    // A GIF opens in Indexed Color (#7886), so `convert` to PNG also notes the palette PNG it
+    // writes, after the decode warning.
     let cases = [
-        ("whole.jpg", &jpeg[..], None),
-        ("half.jpg", &jpeg[..jpeg.len() / 2], Some("JPEG data ends early (the file is truncated or damaged); part of the image is missing")),
-        ("anim.gif", &gif[..], Some("only the first of 3 frames was imported")),
+        ("whole.jpg", &jpeg[..], None, None),
+        ("half.jpg", &jpeg[..jpeg.len() / 2], Some("JPEG data ends early (the file is truncated or damaged); part of the image is missing"), None),
+        ("anim.gif", &gif[..], Some("only the first of 3 frames was imported"), Some("written as an 8-bit palette PNG (2 colours)")),
     ];
-    for (name, bytes, warning) in cases {
+    for (name, bytes, warning, export) in cases {
         let file = d.join(name);
         std::fs::write(&file, bytes).unwrap();
         let (out, _) = ok(bin().arg("info").arg(&file).arg("--compact"));
         let v: Value = serde_json::from_str(&out).unwrap();
         assert_eq!(v["warnings"], json!(warning.into_iter().collect::<Vec<_>>()), "{name}");
         let (_, err) = ok(bin().arg("convert").arg(&file).arg(d.join(format!("{name}.png"))));
-        assert_eq!(err.trim(), warning.map(|w| format!("warning: {w}")).unwrap_or_default(), "{name}");
+        let expected: Vec<String> = warning.into_iter().chain(export).map(|w| format!("warning: {w}")).collect();
+        assert_eq!(
+            err.trim(),
+            expected.join(
+                "
+"
+            ),
+            "{name}"
+        );
     }
     std::fs::remove_dir_all(d).unwrap();
 }
@@ -494,6 +504,39 @@ fn dpx_converts_both_ways_with_the_bits_asked_for() {
     }
 }
 
+/// DDS converts both ways; `--dds-compression` picks the FourCC (bytes 84–87; none writes
+/// uncompressed pixels) and `--dds-mipmaps` the mip count (bytes 28–31). A compression that
+/// isn't none, bc1, bc2 or bc3 is refused and nothing is written (#1327).
+#[test]
+fn dds_converts_both_ways_with_the_compression_asked_for() {
+    let d = tmp("dds");
+    let a = d.join("a.png");
+    write_png(&a, 8, 4, 3);
+    for (args, fourcc, mips) in [
+        (&[][..], [0; 4], 1),
+        (&["--dds-compression", "bc1"][..], *b"DXT1", 1),
+        (&["--dds-compression", "DXT3", "--dds-mipmaps"][..], *b"DXT3", 4),
+        (&["--dds-compression", "bc3"][..], *b"DXT5", 1),
+        (&["--dds-mipmaps"][..], [0; 4], 4),
+    ] {
+        let out = d.join("a.dds");
+        ok(bin().arg("convert").arg(&a).arg(&out).args(args));
+        let bytes = std::fs::read(&out).unwrap();
+        let mip_count = u32::from_le_bytes(bytes[28..32].try_into().unwrap());
+        assert_eq!((&bytes[..4], &bytes[84..88], mip_count), (&b"DDS "[..], &fourcc[..], mips), "{args:?}");
+        let back = d.join("back.png");
+        ok(bin().arg("convert").arg(&out).arg(&back));
+        assert!(back.exists(), "{args:?}");
+    }
+    for bad in ["bc7", "dxt2", ""] {
+        let out = d.join("bad.dds");
+        let o = bin().arg("convert").arg(&a).arg(&out).args(["--dds-compression", bad]).output().unwrap();
+        assert_eq!(o.status.code(), Some(1), "--dds-compression {bad}");
+        assert!(String::from_utf8_lossy(&o.stderr).contains(&format!("bad --dds-compression `{bad}`")), "--dds-compression {bad}");
+        assert!(!out.exists(), "--dds-compression {bad} wrote a file");
+    }
+}
+
 /// `--tga-bits` picks a TGA's bits per pixel (byte 16 of its header); anything but 24 or 32 is
 /// refused and nothing is written.
 #[test]
@@ -517,6 +560,33 @@ fn tga_bits_choose_the_targa_depth() {
         assert_eq!(o.status.code(), Some(1), "--tga-bits {bad}");
         assert!(String::from_utf8_lossy(&o.stderr).contains(&format!("bad --tga-bits `{bad}`: expected 24 or 32")), "--tga-bits {bad}");
         assert!(!out.exists(), "--tga-bits {bad} wrote a file");
+    }
+}
+
+/// `--jpeg-format` picks the JPEG's scans: progressive writes a progressive frame (SOF2). One it
+/// doesn't name is refused and nothing is written.
+#[test]
+fn jpeg_format_chooses_the_scans() {
+    let d = tmp("jpeg-format");
+    let a = d.join("a.png");
+    write_png(&a, 16, 8, 3);
+    let marker = |b: &[u8], m: u8| b.windows(2).any(|w| w == [0xFF, m]);
+    for (format, progressive) in [(None, false), (Some("baseline"), false), (Some("optimized"), false), (Some("progressive"), true)] {
+        let out = d.join("a.jpg");
+        let mut convert = bin();
+        convert.arg("convert").arg(&a).arg(&out);
+        if let Some(f) = format {
+            convert.args(["--jpeg-format", f]);
+        }
+        ok(&mut convert);
+        assert_eq!(marker(&std::fs::read(&out).unwrap(), 0xC2), progressive, "--jpeg-format {format:?}");
+    }
+    for bad in ["Progressive", "1", ""] {
+        let out = d.join("bad.jpg");
+        let o = bin().arg("convert").arg(&a).arg(&out).args(["--jpeg-format", bad]).output().unwrap();
+        assert_eq!(o.status.code(), Some(1), "--jpeg-format {bad}");
+        assert!(String::from_utf8_lossy(&o.stderr).contains(&format!("bad --jpeg-format `{bad}`")), "--jpeg-format {bad}");
+        assert!(!out.exists(), "--jpeg-format {bad} wrote a file");
     }
 }
 
@@ -564,6 +634,42 @@ fn batch_refuses_to_write_over_its_inputs() {
     let after = snapshot();
     assert_eq!(after.len(), 2);
     assert!(after.iter().zip(&before).all(|(a, b)| a.0 == b.0 && a.1 != b.1), "both inputs replaced");
+}
+
+/// #7437: `convert` to its own input file, however the output is spelt, is refused before
+/// anything is read or written, unless `--in-place` asks for it (as `batch` does, #492).
+#[test]
+fn convert_refuses_to_write_over_its_input() {
+    let d = tmp("convert-in-place");
+    write_png(&d.join("in.png"), 8, 4, 5);
+    let before = std::fs::read(d.join("in.png")).unwrap();
+    let convert = |out: &Path, extra: &[&str]| bin().current_dir(&d).args(["convert", "in.png"]).arg(out).args(extra).output().unwrap();
+    let mut outs = vec![PathBuf::from("in.png"), PathBuf::from("./in.png"), d.join("in.png"), d.join(".").join("in.png")];
+    std::fs::hard_link(d.join("in.png"), d.join("hard.png")).unwrap();
+    outs.push(PathBuf::from("hard.png"));
+    #[cfg(unix)]
+    {
+        std::os::unix::fs::symlink(d.join("in.png"), d.join("soft.png")).unwrap();
+        outs.push(PathBuf::from("soft.png"));
+    }
+    for out in &outs {
+        for extra in [&[][..], &["--format", "png"][..], &["--quality", "80"][..]] {
+            let o = convert(out, extra);
+            let err = String::from_utf8_lossy(&o.stderr);
+            assert_eq!(o.status.code(), Some(1), "{} {extra:?}: {err}", out.display());
+            assert!(err.contains("is the input file") && err.contains("--in-place"), "{err}");
+            assert_eq!(std::fs::read(d.join("in.png")).unwrap(), before, "{} {extra:?} changed the original", out.display());
+        }
+    }
+    // Another file converts as before, leaving the original alone.
+    ok(bin().current_dir(&d).args(["convert", "in.png", "out.jpg"]));
+    assert!(d.join("out.jpg").is_file());
+    assert_eq!(std::fs::read(d.join("in.png")).unwrap(), before);
+    // `--in-place` opts in: the result replaces the original, which still opens.
+    ok(bin().current_dir(&d).args(["convert", "in.png", "in.png", "--in-place"]));
+    let (out, _) = ok(bin().current_dir(&d).args(["info", "in.png", "--compact"]));
+    let info: Value = serde_json::from_str(&out).unwrap();
+    assert_eq!((info["width"].as_u64(), info["height"].as_u64()), (Some(8), Some(4)), "{info}");
 }
 
 #[test]
@@ -752,4 +858,137 @@ fn batch_plays_a_photoshop_actions_file() {
     let err = String::from_utf8_lossy(&o.stderr);
     assert!(err.contains("Generative Fill"), "{err}");
     assert!(!o.status.success());
+}
+
+/// `photocraft_cli::run` in-process: `(exit code, stdout, stderr)`.
+fn invoke(args: &[&str]) -> (i32, String, String) {
+    let (mut out, mut err) = (Vec::new(), Vec::new());
+    let args: Vec<String> = args.iter().map(|s| s.to_string()).collect();
+    let code = photocraft_cli::run(&args, &mut out, &mut err);
+    (code, String::from_utf8(out).unwrap(), String::from_utf8(err).unwrap())
+}
+
+const SUBCOMMANDS: [&str; 8] = ["convert", "info", "run", "batch", "droplet", "commands", "mcp", "serve"];
+
+/// Pins top-level dispatch: help goes to stdout (exit 0), no arguments is a usage error on stderr.
+#[test]
+fn top_level_help_version_and_no_arguments() {
+    let (code, out, err) = invoke(&[]);
+    assert_eq!((code, out.is_empty(), err.is_empty()), (2, true, false));
+    for help in ["--help", "-h", "help"] {
+        let (code, out, err) = invoke(&[help]);
+        assert_eq!((code, out.is_empty(), err.is_empty()), (0, false, true), "{help}");
+    }
+    for version in ["--version", "version"] {
+        let (code, out, err) = invoke(&[version]);
+        assert_eq!((code, err.as_str()), (0, ""), "{version}");
+        assert!(out.starts_with("photocraft-cli "), "{version}: {out}");
+    }
+    let (code, out, err) = invoke(&["frobnicate"]);
+    assert_eq!((code, out.is_empty()), (2, true));
+    assert!(err.contains("frobnicate"), "{err}");
+}
+
+/// `<sub> --help` / `-h` prints help on stdout and returns without running the subcommand
+/// (`mcp` and `serve` would otherwise block on stdin).
+#[test]
+fn every_subcommand_help_returns_on_stdout() {
+    for sub in SUBCOMMANDS {
+        for help in ["--help", "-h"] {
+            let (code, out, err) = invoke(&[sub, help]);
+            assert_eq!((code, out.is_empty(), err.is_empty()), (0, false, true), "{sub} {help}: {err}");
+            // `commands` would also exit 0 with output if it ran; its list names `file.new`, help doesn't.
+            assert!(!out.contains("file.new"), "{sub} {help} ran instead of printing help: {out}");
+        }
+    }
+}
+
+/// Every subcommand refuses an unknown flag (bare or `=value`) with exit 2, naming it on stderr.
+#[test]
+fn every_subcommand_rejects_an_unknown_flag() {
+    for sub in SUBCOMMANDS {
+        for flag in [&["--fromat"][..], &["--fromat=jpg"][..], &["--fromat", "jpg"][..]] {
+            let args: Vec<&str> = [sub].into_iter().chain(flag.iter().copied()).collect();
+            let (code, out, err) = invoke(&args);
+            assert_eq!((code, out.is_empty()), (2, true), "{args:?}: {err}");
+            assert!(err.contains("--fromat"), "{args:?}: {err}");
+        }
+    }
+}
+
+/// `--flag=value`, a bare flag given a value, a value flag without one, and repeated flags.
+#[test]
+fn flag_value_forms_and_repeats() {
+    let ids = |out: &str| out.lines().filter_map(|l| l.split_whitespace().next()).map(str::to_owned).collect::<Vec<_>>();
+    let (code, eq, err) = invoke(&["commands", "--filter=file.new"]);
+    assert_eq!(code, 0, "{err}");
+    let (_, spaced, _) = invoke(&["commands", "--filter", "file.new"]);
+    assert_eq!(eq, spaced);
+    assert!(ids(&eq).contains(&"file.new".to_string()), "{eq}");
+    // The last of a repeated value flag wins, whichever order they come in.
+    let (code, out, err) = invoke(&["commands", "--filter", "zzz-no-match", "--filter", "file.new"]);
+    assert_eq!(code, 0, "{err}");
+    assert_eq!(out, eq);
+    let (code, out, err) = invoke(&["commands", "--filter", "file.new", "--filter", "zzz-no-match"]);
+    assert_eq!(code, 0, "{err}");
+    assert!(out.is_empty(), "{out}");
+    // A bare flag takes no value; a value flag needs one.
+    let (code, out, err) = invoke(&["commands", "--json=1"]);
+    assert_eq!((code, out.is_empty()), (2, true));
+    assert!(err.contains("--json"), "{err}");
+    let (code, out, err) = invoke(&["commands", "--filter"]);
+    assert_eq!((code, out.is_empty()), (2, true));
+    assert!(err.contains("--filter"), "{err}");
+}
+
+/// Each `--params` applies to the `--cmd` before it; a `--cmd` without one gets `{}`; a
+/// `--params` ahead of every `--cmd` fails naming `--params`.
+#[test]
+fn run_pairs_params_with_the_preceding_cmd() {
+    let (code, out, err) = invoke(&[
+        "run",
+        "--new",
+        r#"{"width":8,"height":8}"#,
+        "--cmd",
+        "layer.new.layer",
+        "--params",
+        r#"{"name":"First"}"#,
+        "--cmd",
+        "layer.new.layer",
+        "--cmd",
+        "layer.new.layer",
+        "--params",
+        r#"{"name":"Third"}"#,
+        "--cmd",
+        "document.inspect",
+    ]);
+    assert_eq!(code, 0, "{err}");
+    let rows: Vec<Value> = out.lines().map(|l| serde_json::from_str(l).unwrap()).collect();
+    assert_eq!(rows.len(), 4, "{out}");
+    let names: Vec<&str> = rows[3]["result"]["layers"].as_array().unwrap().iter().filter_map(|l| l["name"].as_str()).collect();
+    let count = |n: &str| names.iter().filter(|x| **x == n).count();
+    assert_eq!((count("First"), count("Third")), (1, 1), "each --params applies to its own --cmd only: {names:?}");
+    // Three new layers plus the background; the middle one (no --params) has a default name.
+    assert_eq!(names.len(), 4, "{names:?}");
+    // Layers list top first: Third, the unnamed middle one, First, Background. Pairing --params
+    // with --cmd by position (params[i] -> cmd[i]) would name the middle one Third instead.
+    assert_eq!((names[0], names[2]), ("Third", "First"), "{names:?}");
+    let (code, _, err) = invoke(&["run", "--new", "{}", "--params", "{}", "--cmd", "layer.new.layer"]);
+    assert_ne!(code, 0);
+    assert!(err.contains("--params"), "{err}");
+}
+
+/// #7789: `convert` opens a developed raw at Raw Defaults › Resolution (default 300 ppi), as
+/// `run`, `info` and the app do; it wrote 72.
+#[test]
+fn convert_opens_a_raw_at_the_raw_defaults_resolution() {
+    use photocraft_raw::testgen::{DngSpec, mosaic, scene};
+    let d = tmp("convert-raw");
+    let (w, h) = (24, 16);
+    let (raw, psd) = (d.join("IMG_0001.dng"), d.join("IMG_0001.psd"));
+    std::fs::write(&raw, DngSpec::cfa(w, h, mosaic(&scene(w, h), w, [0, 1, 1, 2], 0, 65535)).build()).unwrap();
+    ok(bin().args(["convert"]).arg(&raw).arg(&psd));
+    let doc = photocraft_io::import("IMG_0001.psd", &std::fs::read(&psd).unwrap()).unwrap().document;
+    assert_eq!(doc.resolution_dpi, 300.0);
+    std::fs::remove_dir_all(d).unwrap();
 }
