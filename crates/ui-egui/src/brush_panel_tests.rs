@@ -2040,31 +2040,45 @@ fn tip_grid_window_keeps_lower_controls_and_preview_reachable_after_resize() {
     for kind in crate::theme::ThemeKind::ALL {
         let mut h = harness(0, 0);
         PhotocraftApp::setup_context(&h.ctx, kind);
-        h.set_size(vec2(900.0, 600.0));
-        h.run_steps(8);
-        for label in ["Create new brush from these settings", "Reset the brush to the defaults", "Update the current brush with these settings"] {
-            let footer = h.get_by_label(label).rect();
-            assert!(
-                egui::Rect::from_min_size(egui::Pos2::ZERO, vec2(900.0, 600.0)).contains_rect(footer),
-                "{kind:?}: {label} must fit the viewport: {footer:?}"
-            );
+        // Shrink below the old fixed body height, then grow again without resetting the window.
+        for height in [600.0, 480.0, 320.0, 600.0] {
+            h.set_size(vec2(900.0, height));
+            h.run_steps(8);
+            let viewport = egui::Rect::from_min_size(egui::Pos2::ZERO, vec2(900.0, height));
+            for label in ["Create new brush from these settings", "Reset the brush to the defaults", "Update the current brush with these settings"] {
+                let footer = h.get_by_label(label).rect();
+                assert!(viewport.contains_rect(footer), "{kind:?}, height {height}: {label} must fit the viewport: {footer:?}");
+            }
+            let renders = brush_preview::render_count(&h.ctx);
+            let texture = brush_preview::stroke_texture(&h.ctx, "settings-strip", &h.state().session.tools.brush, STRIP.0, STRIP.1, Tokens::get(&h.ctx).text);
+            assert_eq!(brush_preview::render_count(&h.ctx), renders, "the panel must already have rendered its preview");
+            let (preview, clip) = h
+                .output()
+                .shapes
+                .iter()
+                .find_map(|shape| match &shape.shape {
+                    egui::Shape::Mesh(mesh) if mesh.texture_id == texture.id() => Some((mesh.calc_bounds(), shape.clip_rect)),
+                    _ => None,
+                })
+                .expect("the stroke preview must be painted");
+            assert!(viewport.contains_rect(preview) && clip.contains_rect(preview), "{kind:?}, height {height}: preview {preview:?}, clip {clip:?}");
+            let before = h.state().session.tools.brush.clone();
+            let n = h.state().session.journal.len();
+            let bar = h.get_all_by_role(egui::accesskit::Role::ScrollBar).map(|b| b.rect()).max_by(|a, b| a.center().x.total_cmp(&b.center().x)).unwrap();
+            let start = egui::pos2(bar.center().x, bar.top() + 4.0);
+            let end = egui::pos2(bar.center().x, bar.bottom() - 2.0);
+            h.hover_at(start);
+            h.run_steps(1);
+            h.drag_at(start);
+            h.run_steps(2);
+            h.hover_at(end);
+            h.run_steps(2);
+            h.drop_at(end);
+            h.run_steps(4);
+            let visible: usize = h.output().shapes.iter().map(|s| visible_spacing(&s.shape, s.clip_rect)).sum();
+            assert!(visible >= 2, "{kind:?}: the spacing switch and slider label remain reachable");
+            assert_eq!(h.state().session.tools.brush, before);
+            assert_eq!(h.state().session.journal.len(), n);
         }
-        let before = h.state().session.tools.brush.clone();
-        let n = h.state().session.journal.len();
-        let bar = h.get_all_by_role(egui::accesskit::Role::ScrollBar).map(|b| b.rect()).max_by(|a, b| a.center().x.total_cmp(&b.center().x)).unwrap();
-        let start = egui::pos2(bar.center().x, bar.top() + 4.0);
-        let end = egui::pos2(bar.center().x, bar.bottom() - 2.0);
-        h.hover_at(start);
-        h.run_steps(1);
-        h.drag_at(start);
-        h.run_steps(2);
-        h.hover_at(end);
-        h.run_steps(2);
-        h.drop_at(end);
-        h.run_steps(4);
-        let visible: usize = h.output().shapes.iter().map(|s| visible_spacing(&s.shape, s.clip_rect)).sum();
-        assert!(visible >= 2, "{kind:?}: the spacing switch and slider label remain reachable");
-        assert_eq!(h.state().session.tools.brush, before);
-        assert_eq!(h.state().session.journal.len(), n);
     }
 }

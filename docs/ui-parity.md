@@ -216,7 +216,7 @@ Paragraph; the rest open as in-app floating windows.
 
 | Behaviour | Status | Evidence |
 |---|---|---|
-| Brush Settings uses the available height and keeps its preview/actions reachable | partial | #3477: vertically resizable window and bounded options scrolling; `tip_grid_window_keeps_lower_controls_and_preview_reachable_after_resize` checks 900×600 in all 14 themes. Fitting every section without scrolling and the remaining window/menu work are still open. |
+| Brush Settings uses the available height and keeps its preview/actions reachable | partial | #3477: vertically resizable window and bounded list/options scrolling; `tip_grid_window_keeps_lower_controls_and_preview_reachable_after_resize` checks footer action bounds, the painted preview bounds and clipping, and both Spacing labels after scrolling at 900×600, 900×480 and 900×320 in all 14 themes, then grows the window again. Fitting every section without scrolling and the remaining window/menu work are still open. |
 | Character and Paragraph controls without a type target | done | #5556; persistent Type tool defaults feed new point, box and mask text; existing text still edits in its selected scope (`type_tool.rs`, `type_tool_tests.rs`) |
 | Panel groups float and tear off into OS windows | missing | UI-217-5, #1828, #1213 |
 | Drag panels to reorder and regroup | partial | #2272, #2305 |
@@ -278,7 +278,8 @@ Paragraph; the rest open as in-app floating windows.
 | 2026-10-12 | minor | Layers panel: Clip Thumbnails to Layer Bounds frames each layer's pixels instead of the canvas (#4281) |
 | 2026-10-12 | minor | Guides: ⌥-click turns a guide through the click; double-click opens Preferences › Guides, Grid & Slices |
 | 2026-10-13 | minor | Smart filter rows can be dragged up or down their stack to reorder the filters |
-| 2026-10-14 | minor | Brush Settings uses a finite viewport for the compact tip grid, resizes vertically and keeps lower controls and preview/actions reachable at 900×600 (#3477 / #3825, partial). No readiness estimate changed. |
+| 2026-10-14 | minor | Brush Settings uses a finite viewport for the compact tip grid and resizes vertically; the original 900×600 regression checks footer action labels and both Spacing labels after scrolling (#3477 / #3825, partial). No readiness estimate changed. |
+| 2026-10-22 | minor | Brush Settings bounds both list/options viewports to the remaining height after the footer, without a positive minimum. The resize regression now directly checks the painted preview bounds/clipping and footer buttons at 600, 480 and 320 points in height across all 14 themes, plus lower Spacing controls after scrolling and growth back to 600 points. No readiness estimate changed. |
 | 2026-10-13 | minor | On-canvas corner radius widgets on live rectangles (TOOL-214-12) |
 | 2026-10-13 | minor | Curvature Pen edits the active path: drag anchors, click a segment to add, double-click smooth/corner, cursor badges |
 | 2026-10-11 | minor | Pen ⇧ 45° done: ⇧-click puts the next anchor on the nearest 45° ray, ⇧-drag turns its handles in 45° steps (TOOL-214-10 done, #3751) |

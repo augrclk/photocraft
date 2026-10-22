@@ -369,39 +369,50 @@ fn settings_tab(app: &mut PhotocraftApp, ui: &mut egui::Ui) {
     // The inner tip grid takes half of this finite height; other controls keep outer scrolling.
     let footer = STRIP.1 as f32 + 4.0 * ui.spacing().item_spacing.y + 13.0;
     let available = ui.available_height();
-    let body_height = if available.is_finite() { (available - footer).max(360.0) } else { 450.0 };
+    let body_height = if available.is_finite() { (available - footer).max(0.0) } else { 450.0 };
     ui.horizontal_top(|ui| {
-        section_list(app, ui, &mut b);
+        ui.vertical(|ui| {
+            ui.set_width(150.0);
+            egui::ScrollArea::vertical().id_salt("brush-sections").min_scrolled_height(0.0).max_height(body_height).auto_shrink([false, false]).show(
+                ui,
+                |ui| {
+                    section_list(app, ui, &mut b);
+                },
+            );
+        });
         widgets::vline(ui, body_height);
         ui.vertical(|ui| {
             ui.set_width(WIDTH - 190.0);
             // No title above the options (#3477): the selected row in the list names them, as
             // in Photoshop, and the line is better spent on the options.
             let on = section_flag(&mut b, section).is_none_or(|f| *f);
-            egui::ScrollArea::vertical().id_salt(("brush-section", section)).max_height(body_height).auto_shrink([false, false]).show(ui, |ui| {
-                ui.set_width(WIDTH - 204.0);
-                ui.set_max_height(body_height);
-                // A section that's off shows its options greyed out (Photoshop). A tip picked in
-                // the grid copies the tip fields only — the dynamics sections stay (Photoshop).
-                // The picked preset is recorded by name (`brush.presets.setCurrent`, identity, so
-                // look-alike duplicates stay distinct), since the engine can't infer it from the
-                // brush afterwards.
-                let picked = ui
-                    .add_enabled_ui(on, |ui| {
-                        section_body(ui, &mut b, section, &app.session.tools.presets, app.session.tools.current_preset.as_deref(), app.ui.tool)
-                    })
-                    .inner;
-                if let Some(name) = picked {
-                    // A missing tip must not mark its preset current or enable Update. Commit
-                    // the tip first; an unchanged look-alike can still change preset identity.
-                    match try_commit_gesture(app, ui.ctx(), &before, &b) {
-                        Ok(()) => run_or_status(app, "brush.presets.setCurrent", json!({ "name": name })),
-                        Err(e) => app.ui.status = e,
+            egui::ScrollArea::vertical().id_salt(("brush-section", section)).min_scrolled_height(0.0).max_height(body_height).auto_shrink([false, false]).show(
+                ui,
+                |ui| {
+                    ui.set_width(WIDTH - 204.0);
+                    ui.set_max_height(body_height);
+                    // A section that's off shows its options greyed out (Photoshop). A tip picked in
+                    // the grid copies the tip fields only — the dynamics sections stay (Photoshop).
+                    // The picked preset is recorded by name (`brush.presets.setCurrent`, identity, so
+                    // look-alike duplicates stay distinct), since the engine can't infer it from the
+                    // brush afterwards.
+                    let picked = ui
+                        .add_enabled_ui(on, |ui| {
+                            section_body(ui, &mut b, section, &app.session.tools.presets, app.session.tools.current_preset.as_deref(), app.ui.tool)
+                        })
+                        .inner;
+                    if let Some(name) = picked {
+                        // A missing tip must not mark its preset current or enable Update. Commit
+                        // the tip first; an unchanged look-alike can still change preset identity.
+                        match try_commit_gesture(app, ui.ctx(), &before, &b) {
+                            Ok(()) => run_or_status(app, "brush.presets.setCurrent", json!({ "name": name })),
+                            Err(e) => app.ui.status = e,
+                        }
+                        b = app.session.tools.brush.clone();
+                        before = b.clone();
                     }
-                    b = app.session.tools.brush.clone();
-                    before = b.clone();
-                }
-            });
+                },
+            );
         });
     });
     ui.add_space(6.0);
