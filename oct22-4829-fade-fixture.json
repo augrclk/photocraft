@@ -1,0 +1,69 @@
+{
+  "size": "1200x1000",
+  "scale": 1,
+  "script": [
+    [
+      "engine.execute",
+      {
+        "command": "prefs.set",
+        "params": {
+          "path": "interface.language",
+          "value": "en"
+        }
+      }
+    ],
+    [
+      "engine.execute",
+      {
+        "command": "file.new",
+        "params": {
+          "width": 480,
+          "height": 360
+        }
+      }
+    ],
+    [
+      "ui.set",
+      {
+        "theme": "proMedium",
+        "tool": "brush",
+        "panels": {
+          "brush_settings": true
+        },
+        "brushSection": 1
+      }
+    ],
+    [
+      "engine.execute",
+      {
+        "command": "tools.setBrush",
+        "params": {
+          "brush": {
+            "shapeDynamics": {
+              "enabled": true,
+              "size": {
+                "control": "fade",
+                "fadeSteps": 123,
+                "minimum": 0.2,
+                "curve": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0.3,
+                    0.6
+                  ],
+                  [
+                    1,
+                    1
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  ]
+}

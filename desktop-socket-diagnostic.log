@@ -1,0 +1,39 @@
+DIAGNOSTIC ATTEMPT 1/20
+
+running 1 test
+test single_instance::tests::a_sandboxed_second_launch_hands_its_paths_over_a_unix_socket ... DIAGNOSTIC send error: Invalid argument (os error 22)
+DIAGNOSTIC send error: Invalid argument (os error 22)
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: Invalid argument (os error 22)
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: Invalid argument (os error 22)
+DIAGNOSTIC send error: Invalid argument (os error 22)
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: not taken
+DIAGNOSTIC send error: out of time
+DIAGNOSTIC socket handoff Standalone: the running PhotoCraft didn't take the files (out of time)
+
+thread 'single_instance::tests::a_sandboxed_second_launch_hands_its_paths_over_a_unix_socket' (21189933) panicked at apps/photocraft/src/single_instance.rs:934:9:
+assertion failed: matches!(result, Launch::Forwarded)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    single_instance::tests::a_sandboxed_second_launch_hands_its_paths_over_a_unix_socket
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 169 filtered out; finished in 10.02s
+

@@ -1,0 +1,56 @@
+{
+  "size": "1200x1000",
+  "scale": 1,
+  "script": [
+    [
+      "engine.execute",
+      {
+        "command": "prefs.set",
+        "params": {
+          "path": "interface.language",
+          "value": "en"
+        }
+      }
+    ],
+    [
+      "engine.execute",
+      {
+        "command": "file.new",
+        "params": {
+          "width": 480,
+          "height": 360
+        }
+      }
+    ],
+    [
+      "ui.set",
+      {
+        "theme": "proMedium",
+        "tool": "brush",
+        "panels": {
+          "brush_settings": true
+        },
+        "brushSection": 0
+      }
+    ],
+    [
+      "engine.execute",
+      {
+        "command": "tools.setBrush",
+        "params": {
+          "brush": {
+            "spacing": 0.427,
+            "spacingEnabled": false
+          }
+        }
+      }
+    ],
+    [
+      "ui.click",
+      {
+        "x": 840,
+        "y": 560
+      }
+    ]
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "size": "1200x1000",
+  "scale": 1,
+  "script": [
+    [
+      "engine.execute",
+      {
+        "command": "prefs.set",
+        "params": {
+          "path": "interface.language",
+          "value": "en"
+        }
+      }
+    ],
+    [
+      "engine.execute",
+      {
+        "command": "file.new",
+        "params": {
+          "width": 480,
+          "height": 360
+        }
+      }
+    ],
+    [
+      "ui.set",
+      {
+        "theme": "proMedium",
+        "tool": "brush",
+        "panels": {
+          "brush_settings": true
+        },
+        "brushSection": 6
+      }
+    ],
+    [
+      "engine.execute",
+      {
+        "command": "tools.setBrush",
+        "params": {
+          "brush": {
+            "transfer": {
+              "enabled": true,
+              "opacity": {
+                "jitter": 0.03,
+                "minimum": 0.173,
+                "control": "fade",
+                "fadeSteps": 37,
+                "curve": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0.3,
+                    0.6
+                  ],
+                  [
+                    1,
+                    1
+                  ]
+                ]
+              },
+              "flow": {
+                "jitter": 0.07,
+                "minimum": 0.283,
+                "control": "fade",
+                "fadeSteps": 37,
+                "curve": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0.3,
+                    0.6
+                  ],
+                  [
+                    1,
+                    1
+                  ]
+                ]
+              },
+              "wetness": {
+                "jitter": 0.11,
+                "minimum": 0.433,
+                "control": "fade",
+                "fadeSteps": 37,
+                "curve": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0.3,
+                    0.6
+                  ],
+                  [
+                    1,
+                    1
+                  ]
+                ]
+              },
+              "mix": {
+                "jitter": 0.13,
+                "minimum": 0.643,
+                "control": "fade",
+                "fadeSteps": 37,
+                "curve": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0.3,
+                    0.6
+                  ],
+                  [
+                    1,
+                    1
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  ]
+}
